@@ -1,34 +1,66 @@
-import { Link } from 'react-router-dom';
-import React from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import axios from '../../axios';
+import React, { useContext, useEffect } from 'react'
 import { FaArrowLeft } from 'react-icons/fa';
 import { Field, Form, Formik } from 'formik';
+import toast from 'react-hot-toast';
+import { AuthContext } from '../../context/authContext';
 
 function Login() {
 
+  const navigate = useNavigate()
+  const { isAuthenticated, setIsAuthenticated, setUserDetails } = useContext(AuthContext)
+
+
+  // Function to handle form submission
+  const handleFormSubmit = async (values, actions) => {
+
+    try {
+      // Make an Axios POST request
+      const response = await axios.post('user/login', values);
+
+      if (response.data.success) {
+        localStorage.setItem('_hw_userDetails', JSON.stringify(response.data.data))
+        localStorage.setItem('_hw_token', response.data.data.token)
+        setUserDetails(response.data.data);
+        toast.success('Login Successfull')
+
+        setTimeout(() => {
+          setIsAuthenticated(true)
+          if (response.data.data.role.includes('admin') || response.data.data.role.includes('superadmin')) {
+            navigate('/dashboard')
+          } else navigate('/')
+        }, 400)
+      }
+
+    } catch (error) {
+      // Handle errors (e.g., show an error message)
+      console.error('Error submitting form:', error);
+      toast.error(error?.response?.data?.message ? error?.response?.data?.message : "Failed To Login")
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  })
+
+
   return (
     <div className="grid min-h-screen  w-full place-items-center px-6 py-12 lg:px-8">
-      <div
-        className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
-        aria-hidden="true"
-      >
-        <div
-          className="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
-          style={{
-            clipPath:
-              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
-        />
-      </div>
+      
       <div className='max-w-sm w-full '>
         <a href='/' className='font-semibold text-gray-600 flex items-center gap-3'>
           <FaArrowLeft /> Back
         </a>
         <div className="mx-auto w-full ">
-          <img
+          {/* <img
             className="mx-auto h-20 w-auto"
             src="/app_logo.png"
             alt="login img"
-          />
+          /> */}
+          {/* <h1>AJH SPORTS</h1> */}
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
           </h2>
@@ -42,7 +74,7 @@ function Login() {
               password: "",
             }}
             onSubmit={async (values, actions) => {
-              console.log(values, actions);
+              handleFormSubmit(values, actions);
             }}
           >
             {(props) => (
@@ -86,6 +118,7 @@ function Login() {
                 <div className="mt-8">
                   <button
                     type="submit"
+                    // onClick={() => login()}
                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Sign in
