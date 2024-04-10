@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { FaArrowRight } from 'react-icons/fa'
 import axios from '../../axios'
 import toast from 'react-hot-toast'
-import EventDescModal from '../EventDescModal'
+import EventDescModal from '../../components/EventDescModal'
 
-function OurEvents() {
+function EventPage() {
 
     const data = [
         {
@@ -39,7 +39,6 @@ function OurEvents() {
         setIsModalOpen(false)
     }
 
-
     const getAllEvent = async () => {
         try {
             let result = await axios.get('/event', {
@@ -69,10 +68,12 @@ function OurEvents() {
         <div className='lg:p-20 p-10 bg-left-bottom' style={{
             background: `url(/wave.png)`
         }}>
+
             {
                 isModalOpen &&
                 <EventDescModal closeModal={closeModal} data={selectedElement} modalIsOpen={isModalOpen} />
             }
+
             <div className='text-center max-w-7xl mx-auto py-20'>
                 <h1 className='text-4xl font-bold'>Our Events.</h1>
                 <div className='mt-4 max-w-2xl mx-auto'>
@@ -105,18 +106,18 @@ function OurEvents() {
                         ))
                     }
                     {/* {
-                        data.map((value, index) => (
-                            <div key={index} className='border flex flex-col gap-10 h-72 bg-white p-5 justify-between rounded-lg shadow border-gray-50'>
-                                <div className='flex flex-col gap-2'>
-                                    <label className='text-current uppercase font-bold text-sm'>{value?.day}</label>
-                                    <label className='font-semibold text-xl'>{value?.name}</label>
-                                    <label className='text-gray-400'>{value?.location}</label>
-                                </div>
-                                <div className='flex gap-4 items-center font-semibold'>
-                                    <button className='bg-orange-500 p-2  rounded-full'><FaArrowRight /></button> Register Now</div>
+                    data.map((value, index) => (
+                        <div key={index} className='border flex flex-col gap-10 h-72 bg-white p-5 justify-between rounded-lg shadow border-gray-50'>
+                            <div className='flex flex-col gap-2'>
+                                <label className='text-current uppercase font-bold text-sm'>{value?.day}</label>
+                                <label className='font-semibold text-xl'>{value?.name}</label>
+                                <label className='text-gray-400'>{value?.location}</label>
                             </div>
-                        ))
-                    } */}
+                            <div className='flex gap-4 items-center font-semibold'>
+                                <button className='bg-orange-500 p-2  rounded-full'><FaArrowRight /></button> Register Now</div>
+                        </div>
+                    ))
+                } */}
 
                 </div>
             </div>
@@ -124,4 +125,4 @@ function OurEvents() {
     )
 }
 
-export default OurEvents
+export default EventPage

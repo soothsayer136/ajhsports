@@ -17,6 +17,7 @@ import Profile from './Pages/Profile/Profile';
 import Footer from './components/Footer';
 import AdminContact from './Pages/AdminPages/Contact/AdminContact';
 import AdminEvents from './Pages/AdminPages/Events/Events';
+import EventPage from './Pages/ClientEventPage/EventPage';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/events" element={<EventPage />} />
 
               <Route
                 path="/profile"
