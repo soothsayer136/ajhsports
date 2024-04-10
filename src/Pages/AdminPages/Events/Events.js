@@ -123,11 +123,8 @@ function AdminEvents() {
                     <thead className='font-semibold border-b bg-blue-100'>
                         <tr className='opacity-75'>
                             <th className='p-3'>S.N</th>
-                            <th className='p-3'>First name</th>
-                            <th className='p-3'>Last name</th>
-                            <th className='p-3'>Email</th>
-                            <th className='p-3'>Contact</th>
-                            {/* <th className='p-3'>Created Date</th> */}
+                            <th className='p-3'>Event Name</th>
+                            <th className='p-3'>Description</th>
                             <th className='p-3'>Actions</th>
                         </tr>
                     </thead>
@@ -139,10 +136,8 @@ function AdminEvents() {
                                 eventData.map((value, index) => (
                                     <tr key={index} className='border-b'>
                                         <td className='p-3'>{index + 1}</td>
-                                        <td className='p-3'>{value?.firstname}</td>
-                                        <td className='p-3'>{value?.lastname}</td>
-                                        <td className='p-3'>{value?.email}</td>
-                                        <td className='p-3'>{value?.contact}</td>
+                                        <td className='p-3'>{value?.eventName}</td>
+                                        <td className='p-3'>{value?.eventDescription}</td>
                                         <td className='p-3 flex gap-2 flex-wrap max-w-fit'>
                                             <button className='bg-red-700 text-white p-2 rounded' onClick={() => {
                                                 removeItem(value._id)

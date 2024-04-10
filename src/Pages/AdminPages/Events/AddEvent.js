@@ -10,7 +10,7 @@ function AddEvent({ modalIsOpen, closeModal, getRoute }) {
 
     const handleFormSubmit = async (values, actions) => {
         try {
-            let result = await axios.post('/event/register', values)
+            let result = await axios.post('/event', values)
 
             if (result.data.success) {
                 toast.success('Event Added Successfully')
@@ -24,17 +24,19 @@ function AddEvent({ modalIsOpen, closeModal, getRoute }) {
     }
 
     const validationSchema = yup.object({
-        firstname: yup.string()
+        eventName: yup.string()
             .required('This Field is required'),
-        lastname: yup.string()
+        eventDescription: yup.string()
             .required('This Field is required'),
-        email: yup.string()
+        startDate: yup.string()
             .required('This Field is required'),
-        contact: yup.string()
-            .required("Phone number is required")
-            .matches(/^[9]\d{9}$/, "Invalid phone number"),
-        address: yup.string()
+        endDate: yup.string()
             .required('This Field is required'),
+        startTime: yup.string()
+            .required('This Field is required'),
+        endTime: yup.string()
+            .required('This Field is required'),
+        occurrence: yup.array().of(yup.string().required('This Field is required')),
     });
 
     const occurrenceType = [
@@ -98,17 +100,7 @@ function AddEvent({ modalIsOpen, closeModal, getRoute }) {
                         endDate: '',
                         startTime: '',
                         endTime: '',
-                        occurrence: {
-                            type: [String],
-                        },
-
-                        // firstname: "",
-                        // lastname: "",
-                        // email: "",
-                        // contact: "",
-                        // address: "",
-                        // password: "password",
-                        // role:'superadmin',
+                        occurrence: "",
                     }}
                     validationSchema={validationSchema}
                     onSubmit={(values, actions) => {
@@ -229,7 +221,13 @@ function AddEvent({ modalIsOpen, closeModal, getRoute }) {
                                 </label>
                                 <div className="mt-2">
                                     <Select
-                                    className='capitalize'
+                                        required
+                                        onChange={(e) => {
+                                            const val = e.map((value) => value.value)
+                                            console.log('val', val)
+                                            props.setFieldValue('occurrence', val)
+                                        }}
+                                        className='capitalize'
                                         styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                                         isMulti
                                         menuPortalTarget={document.body}
