@@ -101,7 +101,7 @@ function AdminEvents() {
             {
                 isEditModalOpen &&
                 <EditEvent closeModal={closeEditModal} modalIsOpen={isEditModalOpen}
-                    getRoute={getAllEvent} profileDetails={selectedEventData}
+                    getRoute={getAllEvent} data={selectedEventData}
                 />
 
             }

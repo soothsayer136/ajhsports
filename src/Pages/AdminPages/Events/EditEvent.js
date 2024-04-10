@@ -1,73 +1,110 @@
-import { Field, Form, Formik } from 'formik';
 import axios from '../../../axios'
+import { Field, Form, Formik } from 'formik'
 import React from 'react'
 import toast from 'react-hot-toast'
 import Modal from 'react-modal'
-import FieldError from '../../../components/FieldError';
 import * as yup from 'yup';
-
-function EditEvent({ modalIsOpen, closeModal, getRoute, profileDetails }) {
-
-
-    const validationSchema = yup.object({
-        firstname: yup.string()
-            .required('This Field is required'),
-        lastname: yup.string()
-            .required('This Field is required'),
-        email: yup.string()
-            .required('This Field is required'),
-        contact: yup.string()
-            .required("Phone number is required")
-            .matches(/^[9]\d{9}$/, "Invalid phone number"),
-        address: yup.string()
-            .required('This Field is required'),
-    });
+import FieldError from '../../../components/FieldError'
+import Select from 'react-select'
+import dayjs from 'dayjs'
+function EditEvent({ modalIsOpen, closeModal, getRoute, data }) {
 
     const handleFormSubmit = async (values, actions) => {
         try {
-            // Make an Axios POST request
-            const response = await axios.put('/event/update-profile/' + profileDetails?._id, values);
+            let result = await axios.put('/event/' + data?.eventSlug, values)
 
-            if (response.data.success) {
-                toast.success('Editing Successfull')
-                getRoute()
+            if (result.data.success) {
+                toast.success('Event Edited Successfully')
                 closeModal()
-            }
-
-            // Handle the response as needed (e.g., redirect, show a success message)
-        } catch (error) {
-            // Handle errors (e.g., show an error message)
-            console.error('Error submitting form:', error);
-            toast.error(error.response.data.msg)
+                getRoute()
+            } else toast.error('Failed')
+        } catch (ERR) {
+            console.log(ERR)
+            toast.error(ERR.response.data.msg)
         }
-    };
+    }
 
+    const validationSchema = yup.object({
+        eventName: yup.string()
+            .required('This Field is required'),
+        eventDescription: yup.string()
+            .required('This Field is required'),
+        startDate: yup.string()
+            .required('This Field is required'),
+        endDate: yup.string()
+            .required('This Field is required'),
+        startTime: yup.string()
+            .required('This Field is required'),
+        endTime: yup.string()
+            .required('This Field is required'),
+        occurrence: yup.array().of(yup.string().required('This Field is required')),
+    });
+
+    const occurrenceType = [
+        {
+            value: "weekdays",
+            label: "Week Days"
+        },
+        {
+            value: "weekends",
+            label: "Weekends"
+        },
+        {
+            value: "sun",
+            label: "Sunday"
+        },
+        {
+            value: "mon",
+            label: "Monday"
+        },
+        {
+            value: "tue",
+            label: "Tuesday"
+        },
+        {
+            value: "wed",
+            label: "Wednesday"
+        },
+        {
+            value: "thrus",
+            label: "Thursday"
+        },
+        {
+            value: "fri",
+            label: "Friday"
+        },
+        {
+            value: "sat",
+            label: "Saturday"
+        },
+    ]
+
+    console.log(data?.occurrence)
+
+    const selectedOptions = occurrenceType.filter(option => data?.occurrence.includes(option.value));
 
     return (
         <Modal
             ariaHideApp={false}
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
-            contentLabel="Edit Category Modal"
+            contentLabel="Edit Event Modal"
             overlayClassName="Overlay"
-            className="Modal rounded-md p-5 md:w-1/4 max-h-screen overflow-auto"
+            className="Modal rounded-md p-5 md:w-2/4 max-h-screen overflow-auto"
         >
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                    Change Profile Details
-                </h2>
-            </div>
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900">Edit Event</h1>
 
-            <div className="mt-10 ">
-
+            <div className='mt-4'>
                 <Formik
                     enableReinitialize
                     initialValues={{
-                        firstname: profileDetails?.firstname,
-                        lastname: profileDetails?.lastname,
-                        email: profileDetails?.email,
-                        contact: profileDetails?.contact,
-                        address: profileDetails?.address,
+                        eventName: data?.eventName,
+                        eventDescription: data?.eventDescription,
+                        startDate: dayjs(data?.startDate).format('YYYY-MM-DD'),
+                        endDate: dayjs(data?.endDate).format('YYYY-MM-DD'),
+                        startTime: data?.startTime,
+                        endTime: data?.endTime,
+                        occurrence: data?.occurrence,
                     }}
                     validationSchema={validationSchema}
                     onSubmit={(values, actions) => {
@@ -77,93 +114,154 @@ function EditEvent({ modalIsOpen, closeModal, getRoute, profileDetails }) {
                     {(props) => (
                         <Form className='gap-3 grid grid-cols-2'>
                             <div className=''>
-                                <label htmlFor="firstname" className="block text-sm font-medium leading-6 text-gray-900">
-                                    First Name
+                                <label htmlFor="eventName" className="block text-sm font-medium leading-6 text-gray-900">
+                                    Event Name
                                 </label>
                                 <div className="mt-2">
                                     <Field
-                                        id="firstname"
-                                        name="firstname"
-                                        autoComplete="firstname"
+                                        id="eventName"
+                                        name="eventName"
+                                        autoComplete="eventName"
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
-                                <FieldError message={props.touched.firstname && props.errors.firstname} />
+                                <FieldError message={props.touched.eventName && props.errors.eventName} />
 
                             </div>
                             <div>
-                                <label htmlFor="lastname" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Last Name
+                                <label htmlFor="eventDescription" className="block text-sm font-medium leading-6 text-gray-900">
+                                    Event Description
                                 </label>
                                 <div className="mt-2">
                                     <Field
-                                        id="lastname"
-                                        name="lastname"
-                                        autoComplete="lastname"
+                                        as="textarea"
+                                        id="eventDescription"
+                                        name="eventDescription"
+                                        autoComplete="eventDescription"
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
-                                <FieldError message={props.touched.lastname && props.errors.lastname} />
-
+                                <FieldError message={props.touched.eventDescription && props.errors.eventDescription} />
                             </div>
 
                             <div className=''>
-                                <label htmlFor="address" className="block  text-sm font-medium leading-6 text-gray-900">
-                                    Address
+                                <label htmlFor="startDate" className="block  text-sm font-medium leading-6 text-gray-900">
+                                    Start Date
                                 </label>
                                 <div className="mt-2">
                                     <Field
-                                        id="address"
-                                        name="address"
-                                        autoComplete="address"
+                                        type="date"
+                                        id="startDate"
+                                        name="startDate"
+                                        autoComplete="startDate"
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
-                                <FieldError message={props.touched.address && props.errors.address} />
+                                <FieldError message={props.touched.startDate && props.errors.startDate} />
 
                             </div>
-                            <div>
-                                <label htmlFor="contact" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Contact
+                            <div className=''>
+                                <label htmlFor="endDate" className="block  text-sm font-medium leading-6 text-gray-900">
+                                    End Date
                                 </label>
                                 <div className="mt-2">
                                     <Field
-                                        id="contact"
-                                        name="contact"
-                                        autoComplete="contact"
+                                        type="date"
+                                        id="endDate"
+                                        name="endDate"
+                                        autoComplete="endDate"
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
-                                <FieldError message={props.touched.contact && props.errors.contact} />
+                                <FieldError message={props.touched.endDate && props.errors.endDate} />
 
                             </div>
+                            <div className=''>
+                                <label htmlFor="startTime" className="block  text-sm font-medium leading-6 text-gray-900">
+                                    Start Time
+                                </label>
+                                <div className="mt-2">
+                                    <Field
+                                        type="time"
+                                        id="startTime"
+                                        name="startTime"
+                                        autoComplete="startTime"
+                                        required
+                                        className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    />
+                                </div>
+                                <FieldError message={props.touched.startTime && props.errors.startTime} />
 
+                            </div>
+                            <div className=''>
+                                <label htmlFor="endTime" className="block  text-sm font-medium leading-6 text-gray-900">
+                                    End Time
+                                </label>
+                                <div className="mt-2">
+                                    <Field
+                                        type="time"
+                                        id="endTime"
+                                        name="endTime"
+                                        autoComplete="endTime"
+                                        required
+                                        className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    />
+                                </div>
+                                <FieldError message={props.touched.endTime && props.errors.endTime} />
+
+                            </div>
 
                             <div className='col-span-full text-center opacity-15'>
                                 ------------
                             </div>
 
-                            <div className='col-span-full -mt-3'>
-                                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Email address
+                            <div className=''>
+                                <label htmlFor="occurrence" className="block  text-sm font-medium leading-6 text-gray-900">
+                                    Occurrence
                                 </label>
                                 <div className="mt-2">
-                                    <Field
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
+                                    <Select
+                                        required
+                                        onChange={(selectedOptions) => {
+                                            const values = selectedOptions.map(option => option.value);
+                                            props.setFieldValue('occurrence', values);
+                                        }}
+                                        className='capitalize'
+                                        styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+                                        isMulti
+                                        value={selectedOptions}
+                                        menuPortalTarget={document.body}
+                                        options={occurrenceType} />
+
+                                    {/* <Field
+                                        multiple
+                                        as="select"
+                                        id="occurrence"
+                                        name="occurrence"
+                                        autoComplete="occurrence"
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    />
+                                    >
+
+                                        <option>Select Event's Occurrence</option>
+
+                                        {
+                                            occurrenceType?.map((value, index) => (
+                                                <option className='capitalize' key={index}>{value}</option>
+                                            ))
+                                        }
+
+
+                                    </Field> */}
                                 </div>
-                                <FieldError message={props.touched.email && props.errors.email} />
+                                <FieldError message={props.touched.occurrence && props.errors.occurrence} />
 
                             </div>
+
 
                             <div className='col-span-full mt-4'>
                                 <button
@@ -178,7 +276,6 @@ function EditEvent({ modalIsOpen, closeModal, getRoute, profileDetails }) {
                         </Form>
                     )}
                 </Formik>
-
             </div>
 
         </Modal>
