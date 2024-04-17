@@ -121,9 +121,9 @@ function App() {
               <Route
                 path="/blogs/:id"
                 element={
-                  <ProtectedAdminRoute>
+                  // <ProtectedAdminRoute>
                     <SingleBlogPage />
-                  </ProtectedAdminRoute>
+                  // </ProtectedAdminRoute>
                 }
               />
 
