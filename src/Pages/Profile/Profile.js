@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import EditProfile from './EditProfile'
 import toast from 'react-hot-toast'
 import { AuthContext } from '../../context/authContext'
+import { Link } from 'react-router-dom'
 
 function Profile() {
     const { userDetails, setUserDetails } = useContext(AuthContext)
@@ -85,6 +86,13 @@ function Profile() {
                 <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                     <div className="flex items-center space-x-4 mt-2">
 
+                        {
+                            (profileDetails?.role === 'superadmin' || profileDetails?.role === 'admin') &&
+
+                            <Link to={'/dashboard'} className='flex items-center bg-green-800 hover:bg-green-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100'>
+                                Dashboard
+                            </Link>
+                        }
                         <input ref={uploadRef} type='file' className='hidden' onChange={(e) => {
                             uploadProfilePicture(e.target.files[0])
                         }} />

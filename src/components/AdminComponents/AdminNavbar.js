@@ -16,6 +16,7 @@ const navigation = [
   { name: 'events', href: '/dashboard/events' },
   { name: 'contact', href: '/dashboard/contact' },
   { name: 'blog', href: '/dashboard/blog' },
+  { name: 'sessions', href: '/dashboard/sessions' },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '/profile' },

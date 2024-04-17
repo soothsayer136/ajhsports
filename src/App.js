@@ -23,6 +23,8 @@ import AdminBlog from './Pages/AdminPages/Blog/AdminBlog';
 import AddBlog from './Pages/AdminPages/Blog/AddBlog';
 import EditBlog from './Pages/AdminPages/Blog/EditBlog';
 import SingleBlogPage from './Pages/Blog/SingleBlogPage';
+import AdminSessions from './Pages/AdminPages/Sessions/AdminSessions';
+import AddSessionModal from './Pages/AdminPages/Sessions/AddSessionModal';
 
 function App() {
 
@@ -90,6 +92,8 @@ function App() {
                   </ProtectedAdminRoute>
                 }
               />
+
+              {/* Blog */}
               <Route
                 path="/dashboard/blog"
                 element={
@@ -119,6 +123,24 @@ function App() {
                 element={
                   <ProtectedAdminRoute>
                     <SingleBlogPage />
+                  </ProtectedAdminRoute>
+                }
+              />
+
+              {/* Sessions */}
+              <Route
+                path="/dashboard/sessions"
+                element={
+                  <ProtectedAdminRoute>
+                    <AdminSessions />
+                  </ProtectedAdminRoute>
+                }
+              />
+              <Route
+                path="/dashboard/sessions/addsession"
+                element={
+                  <ProtectedAdminRoute>
+                    <AddSessionModal/>
                   </ProtectedAdminRoute>
                 }
               />
