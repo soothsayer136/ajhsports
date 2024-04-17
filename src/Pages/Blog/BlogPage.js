@@ -1,25 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+
 import { FaArrowRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import toast from 'react-hot-toast'
+import axios from '../../axios'
 
 function BlogPage() {
-    const data = [
-        {
-            name: 'Kids Sports Parties',
-            short_desc: 'Lorem ipsum dolor sit amet consectetur. Urna sed quis consequat in sed.',
-            image: '/blog1.png'
-        },
-        {
-            name: 'Kids Sports Parties',
-            short_desc: 'Lorem ipsum dolor sit amet consectetur. Urna sed quis consequat in sed.',
-            image: '/blog1.png'
-        },
-        {
-            name: 'Kids Sports Parties',
-            short_desc: 'Lorem ipsum dolor sit amet consectetur. Urna sed quis consequat in sed.',
-            image: '/blog1.png'
-        },
-    ]
+    const [blogData, setBlogData] = useState([])
+
+
+    const getAllBlog = async (values, actions) => {
+        try {
+            let result = await axios.get('/blog', {
+                params: {
+                    search: '',
+                    page: 1,
+                    size: 20
+                }
+            })
+
+            if (result.data.success) {
+                setBlogData(result?.data?.data.blogs.data)
+            } else toast.error('Failed')
+        } catch (ERR) {
+            console.log(ERR)
+            toast.error(ERR.response.data.msg)
+        }
+    }
+
+    useEffect(() => {
+        getAllBlog()
+    }, [])
+
     return (
         <div className=' p-10 pt-5 bg-left-bottom bg-secondary' >
             <div className='text-center max-w-7xl mx-auto py-20'>
@@ -30,13 +44,13 @@ function BlogPage() {
 
                 <div className='grid xl:grid-cols-3 md:grid-cols-2 gap-6 text-left mt-10'>
                     {
-                        data.map((value, index) => (
+                        blogData.map((value, index) => (
                             <div className=' flex flex-col gap-10   p-5 justify-between rounded-lg ' key={index}>
                                 <div className='flex flex-col gap-6'>
-                                    <label className='font-semibold text-xl'>{value?.name}</label>
-                                    <img src={value?.image} className='h-44 object-cover rounded-xl' alt='blog' />
-                                    <label className='text-gray-600'>{value?.short_desc}</label>
-                                    <Link className='flex gap-3 items-center text-current font-bold'>Learn More <FaArrowRight /></Link>
+                                    <label className='font-semibold text-xl capitalize'>{value?.title}</label>
+                                    <img src={`${process.env.REACT_APP_IMG_URI}${value?.image}`} className='h-44 object-cover rounded-xl' alt='blog' />
+                                    <label className='text-gray-600 line-clamp-2'>{value?.description}</label>
+                                    <Link to={'/blogs/' + value?._id} className='flex gap-3 items-center text-current font-bold'>Learn More <FaArrowRight /></Link>
                                 </div>
                             </div>
                         ))

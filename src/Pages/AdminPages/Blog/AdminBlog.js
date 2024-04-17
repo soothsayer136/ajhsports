@@ -3,6 +3,7 @@ import axios from '../../../axios'
 import toast from 'react-hot-toast'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
+import { FaEdit, FaTrashAlt } from 'react-icons/fa'
 
 function AdminBlog() {
     const navigate = useNavigate()
@@ -13,6 +14,7 @@ function AdminBlog() {
     const [totalBlogPage, setTotalBlogPage] = useState(1)
     const [blogPageSize, setBlogPageSize] = useState(10)
     const [keyword, setKeyword] = useState("")
+    const [selectedEventData, setSelectedEventData] = useState([])
 
 
     const getAllBlog = async (values, actions) => {
@@ -26,7 +28,7 @@ function AdminBlog() {
             })
 
             if (result.data.success) {
-                setBlogData(result?.data?.data.data)
+                setBlogData(result?.data?.data.blogs.data)
                 setTotalBlogCount(result?.data?.count)
                 setTotalBlogPage(result?.data?.totalPage)
             } else toast.error('Failed')
@@ -53,7 +55,7 @@ function AdminBlog() {
                 confirmButtonText: 'Yes, Delete it!'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    let result = await axios.delete('event/delete-event/' + id)
+                    let result = await axios.delete('blog/' + id)
                     if (result.data.success) {
                         getAllBlog()
                         toast.success('Deleted Successfully')
@@ -91,10 +93,10 @@ function AdminBlog() {
                     <thead className='font-semibold border-b bg-blue-100'>
                         <tr className='opacity-75'>
                             <th className='p-3'>S.N</th>
-                            <th className='p-3'>Full Name</th>
-                            <th className='p-3'>Blog</th>
-                            <th className='p-3'>Email</th>
-                            <th className='p-3'>Message</th>
+                            <th className='p-3'>Name</th>
+                            <th className='p-3'>Short description</th>
+                            <th className='p-3'>Actions</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -105,10 +107,18 @@ function AdminBlog() {
                                 blogData?.map((value, index) => (
                                     <tr key={index} className='border-b'>
                                         <td className='p-3'>{index + 1}</td>
-                                        <td className='p-3'>{value?.fullname}</td>
-                                        <td className='p-3'>{value?.mobile_no}</td>
-                                        <td className='p-3'>{value?.email}</td>
-                                        <td className='p-3'>{value?.message}</td>
+                                        <td className='p-3'>{value?.title}</td>
+                                        <td className='p-3'>{value?.description}</td>
+                                        <td className='p-3 flex gap-2 flex-wrap max-w-fit'>
+                                            <button className='bg-red-700 text-white p-2 rounded' onClick={() => {
+                                                removeItem(value._id)
+                                            }}><FaTrashAlt /></button>
+                                            <button onClick={() => {
+                                                navigate('/dashboard/blog/editblog/' + value._id)
+                                            }} className='bg-blue-700 text-white p-2 rounded'>
+                                                <FaEdit />
+                                            </button>
+                                        </td>
                                     </tr>
                                 )))
                         }

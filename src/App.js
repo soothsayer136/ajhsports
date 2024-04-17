@@ -21,6 +21,8 @@ import EventPage from './Pages/ClientEventPage/EventPage';
 import BlogPage from './Pages/Blog/BlogPage';
 import AdminBlog from './Pages/AdminPages/Blog/AdminBlog';
 import AddBlog from './Pages/AdminPages/Blog/AddBlog';
+import EditBlog from './Pages/AdminPages/Blog/EditBlog';
+import SingleBlogPage from './Pages/Blog/SingleBlogPage';
 
 function App() {
 
@@ -101,6 +103,22 @@ function App() {
                 element={
                   <ProtectedAdminRoute>
                     <AddBlog />
+                  </ProtectedAdminRoute>
+                }
+              />
+              <Route
+                path="/dashboard/blog/editblog/:id"
+                element={
+                  <ProtectedAdminRoute>
+                    <EditBlog />
+                  </ProtectedAdminRoute>
+                }
+              />
+              <Route
+                path="/blogs/:id"
+                element={
+                  <ProtectedAdminRoute>
+                    <SingleBlogPage />
                   </ProtectedAdminRoute>
                 }
               />
