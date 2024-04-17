@@ -10,7 +10,7 @@ function SuggestedPosts({ randomBlogData }) {
             <div className='grid gap-5'>
                 {
                     randomBlogData?.map((value, index) => (
-                        <Link to={`/blog/${value?.blogSlug}`} className='flex gap-5 items-start suggestedBlogs'>
+                        <Link to={`/blogs/${value?._id}`} className='flex gap-5 items-start suggestedBlogs'>
                             <img className='h-[100px] w-[100px] rounded-lg object-cover z-0' src={`${process.env.REACT_APP_IMG_URI}${value?.image}`} />
                             <div className='flex flex-col gap-2 justify-center'>
                                 <div className='flex gap-2 text-xs text-gray '>
