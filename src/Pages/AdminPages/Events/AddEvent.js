@@ -36,6 +36,8 @@ function AddEvent({ modalIsOpen, closeModal, getRoute }) {
             .required('This Field is required'),
         endTime: yup.string()
             .required('This Field is required'),
+        location: yup.string()
+            .required('This Field is required'),
         occurrence: yup.array().of(yup.string().required('This Field is required')),
     });
 

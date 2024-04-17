@@ -18,6 +18,9 @@ import Footer from './components/Footer';
 import AdminContact from './Pages/AdminPages/Contact/AdminContact';
 import AdminEvents from './Pages/AdminPages/Events/Events';
 import EventPage from './Pages/ClientEventPage/EventPage';
+import BlogPage from './Pages/Blog/BlogPage';
+import AdminBlog from './Pages/AdminPages/Blog/AdminBlog';
+import AddBlog from './Pages/AdminPages/Blog/AddBlog';
 
 function App() {
 
@@ -36,6 +39,9 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/events" element={<EventPage />} />
+              <Route path="/blogs" element={<BlogPage />} />
+
+              {/* Admin Pages */}
 
               <Route
                 path="/profile"
@@ -79,6 +85,22 @@ function App() {
                 element={
                   <ProtectedAdminRoute>
                     <AdminEvents />
+                  </ProtectedAdminRoute>
+                }
+              />
+              <Route
+                path="/dashboard/blog"
+                element={
+                  <ProtectedAdminRoute>
+                    <AdminBlog />
+                  </ProtectedAdminRoute>
+                }
+              />
+              <Route
+                path="/dashboard/blog/addblog"
+                element={
+                  <ProtectedAdminRoute>
+                    <AddBlog />
                   </ProtectedAdminRoute>
                 }
               />

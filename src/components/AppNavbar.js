@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
-// import { AuthContext } from '../context/authContext';
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../context/authContext';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-// import axios from '../axios';
-// import { MdArrowBackIos, MdOutlineMenu, MdOutlineShoppingBag } from 'react-icons/md'
-// import { GoBell, GoHeart, GoSearch } from 'react-icons/go'
+import axios from '../axios';
+import { MdArrowBackIos, MdOutlineMenu, MdOutlineShoppingBag } from 'react-icons/md'
+import { GoBell, GoHeart, GoSearch } from 'react-icons/go'
 import { FaBars } from 'react-icons/fa'
-// import SideNav from './SideNav';
-// import { FaHamburger } from 'react-icons/fa'
+import SideNav from './SideNav';
+import { FaHamburger, FaThumbsUp } from 'react-icons/fa'
 import { MdClose } from 'react-icons/md'
-// import toast from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const AppNavbar = () => {
-    // const authUser = useContext(AuthContext);
+    const authUser = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
-    // const [keyword, setKeyword] = useState('')
+    const [keyword, setKeyword] = useState('')
 
-    // const [toggleNav, setToggleNav] = useState(true);
+    const [toggleNav, setToggleNav] = useState(true);
     const [notificationModal, setNotificationModal] = useState(false);
-    // const [sideNav, setSideNav] = useState(false);
-    // const [categoryData, setCategoryData] = useState([])
+    const [sideNav, setSideNav] = useState(false);
+    const [categoryData, setCategoryData] = useState([])
 
-    // let isAuthenticated = authUser?.isAuthenticated;
+    let isAuthenticated = authUser?.isAuthenticated;
 
     // const getAllCategory = async () => {
     //     try {
@@ -47,7 +47,7 @@ const AppNavbar = () => {
     // }, [])
 
     const navigation = [
-        { name: 'blogs', href: '/' },
+        { name: 'blogs', href: '/blogs' },
         { name: 'events', href: '/events' },
         // {
         //     name: 'events', href: '/category',
@@ -58,20 +58,20 @@ const AppNavbar = () => {
     ]
 
 
-    // const scrollToTop = () => {
-    //     window.scrollTo({
-    //         top: 0,
-    //         behavior: "smooth", // for smoothly scrolling
-    //     });
-    // };
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth", // for smoothly scrolling
+        });
+    };
 
-    // const notificationHandler = () => {
-    //     setNotificationModal(!notificationModal);
-    // };
+    const notificationHandler = () => {
+        setNotificationModal(!notificationModal);
+    };
 
-    // const handleNav = () => {
-    //     setToggleNav(!toggleNav);
-    // };
+    const handleNav = () => {
+        setToggleNav(!toggleNav);
+    };
 
     const [navbackground, setNavBackground] = useState(false);
 
@@ -89,26 +89,26 @@ const AppNavbar = () => {
         if (notificationModal) setNotificationModal(false);
     };
 
-    // const logout = () => {
-    //     localStorage.removeItem("_hw_token");
-    //     localStorage.removeItem("_hw_userDetails");
+    const logout = () => {
+        localStorage.removeItem("_hw_token");
+        localStorage.removeItem("_hw_userDetails");
 
-    //     setTimeout(() => {
-    //         window.location.href = "/login"
-    //     }, 400)
-    // };
+        setTimeout(() => {
+            window.location.href = "/login"
+        }, 400)
+    };
 
 
-    // console.log("authUSer", authUser);
+    console.log("authUSer", authUser);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-    // const searchFunction = () => {
-    //     navigate('/product', {
-    //         state: {
-    //             search: keyword
-    //         }
-    //     })
-    // }
+    const searchFunction = () => {
+        navigate('/product', {
+            state: {
+                search: keyword
+            }
+        })
+    }
 
     return (
         <div
@@ -190,9 +190,9 @@ const AppNavbar = () => {
                                 </Link>
                             </div>
 
-                            {/* {isAuthenticated ? (
-                                <div className="flex items-center">
-                                    <div className="flex items-center mr-8 gap-4">
+                            {isAuthenticated ? (
+                                <div className="flex items-center ml-4">
+                                    {/* <div className="flex items-center mr-8 gap-4">
                                         <div className=" transform cursor-pointer hover:scale-110">
                                             <Link to={"/wishlist"}>
                                                 <GoHeart size={23} strokeWidth={0.5} />
@@ -204,7 +204,7 @@ const AppNavbar = () => {
                                                 <MdOutlineShoppingBag size={23} />
                                             </Link>
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     <div className="flex">
                                         <span className="group relative inline-block">
@@ -298,7 +298,7 @@ const AppNavbar = () => {
                                         </Link>
                                     </div>
                                 </div>
-                            )} */}
+                            )}
 
                             {/* <MdOutlineMenu
                                 onClick={() => {
@@ -362,7 +362,7 @@ const AppNavbar = () => {
                                             </Link>
                                         </div>
 
-                                        {/* {isAuthenticated ? (
+                                        {isAuthenticated ? (
                                             <div className="flex items-center">
                                                 <div className="flex items-center mr-8 gap-4">
                                                     <div
@@ -485,7 +485,7 @@ const AppNavbar = () => {
                                                     Log in
                                                 </Link>
                                             </div>
-                                        )} */}
+                                        )}
 
                                     </div>
 

@@ -1,12 +1,14 @@
 import axios from '../../../axios'
 import { Field, Form, Formik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import Modal from 'react-modal'
 import * as yup from 'yup';
 import FieldError from '../../../components/FieldError'
 import Select from 'react-select'
 import dayjs from 'dayjs'
+import ReactSelect from '../../../components/ReactSelect'
+
 function EditEvent({ modalIsOpen, closeModal, getRoute, data }) {
 
     const handleFormSubmit = async (values, actions) => {
@@ -79,9 +81,18 @@ function EditEvent({ modalIsOpen, closeModal, getRoute, data }) {
         },
     ]
 
-    console.log(data?.occurrence)
+    const [selectedOccurence, setSelectedOccurence] = useState(data?.occurrence)
 
-    const selectedOptions = occurrenceType.filter(option => data?.occurrence.includes(option.value));
+    const [selectedOptions, setSelectedOptions] = useState()
+
+    console.log('data?.occurrence', selectedOccurence)
+
+
+    const handleOption = (data) => {
+        let newData = occurrenceType.filter(option => data.includes(option.value))
+        console.log(newData)
+    }
+
 
     return (
         <Modal
@@ -224,39 +235,13 @@ function EditEvent({ modalIsOpen, closeModal, getRoute, data }) {
                                     Occurrence
                                 </label>
                                 <div className="mt-2">
-                                    <Select
-                                        required
-                                        onChange={(selectedOptions) => {
-                                            const values = selectedOptions.map(option => option.value);
-                                            props.setFieldValue('occurrence', values);
-                                        }}
-                                        className='capitalize'
-                                        styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
-                                        isMulti
-                                        value={selectedOptions}
-                                        menuPortalTarget={document.body}
-                                        options={occurrenceType} />
 
-                                    {/* <Field
-                                        multiple
-                                        as="select"
-                                        id="occurrence"
+                                    <Field
+                                        className="my-2"
                                         name="occurrence"
-                                        autoComplete="occurrence"
-                                        required
-                                        className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    >
-
-                                        <option>Select Event's Occurrence</option>
-
-                                        {
-                                            occurrenceType?.map((value, index) => (
-                                                <option className='capitalize' key={index}>{value}</option>
-                                            ))
-                                        }
-
-
-                                    </Field> */}
+                                        isMulti={true}
+                                        component={ReactSelect}
+                                        options={occurrenceType} />
                                 </div>
                                 <FieldError message={props.touched.occurrence && props.errors.occurrence} />
 

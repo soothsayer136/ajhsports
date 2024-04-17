@@ -77,8 +77,9 @@ function Profile() {
                             <img alt='user' src="/defaultUserImage.png" className="w-40 border-4 mt-5 border-white rounded-full" />
 
                     }
-                    <div className="flex items-center space-x-2 mt-2">
+                    <div className="flex flex-col items-center space-x-2 mt-2">
                         <p className="text-2xl">{profileDetails?.firstname} {profileDetails?.lastname}</p>
+                        <p className="font-semibold opacity-60 uppercase"> {profileDetails?.role}</p>
                     </div>
                 </div>
                 <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
