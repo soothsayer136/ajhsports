@@ -19,7 +19,7 @@ function AddEvent({ modalIsOpen, closeModal, getRoute }) {
             } else toast.error('Failed')
         } catch (ERR) {
             console.log(ERR)
-            toast.error(ERR.response.data.msg)
+            toast.error(ERR.response.data.message)
         }
     }
 
@@ -103,6 +103,7 @@ function AddEvent({ modalIsOpen, closeModal, getRoute }) {
                         startTime: '',
                         endTime: '',
                         occurrence: "",
+                        location: "",
                     }}
                     validationSchema={validationSchema}
                     onSubmit={(values, actions) => {
@@ -235,28 +236,23 @@ function AddEvent({ modalIsOpen, closeModal, getRoute }) {
                                         menuPortalTarget={document.body}
                                         options={occurrenceType} />
 
-                                    {/* <Field
-                                        multiple
-                                        as="select"
-                                        id="occurrence"
-                                        name="occurrence"
-                                        autoComplete="occurrence"
-                                        required
-                                        className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    >
-
-                                        <option>Select Event's Occurrence</option>
-
-                                        {
-                                            occurrenceType?.map((value, index) => (
-                                                <option className='capitalize' key={index}>{value}</option>
-                                            ))
-                                        }
-
-
-                                    </Field> */}
                                 </div>
                                 <FieldError message={props.touched.occurrence && props.errors.occurrence} />
+
+                            </div>
+                            <div className=''>
+                                <label htmlFor="location" className="block  text-sm font-medium leading-6 text-gray-900">
+                                    Location
+                                </label>
+                                <div className="mt-2">
+                                    <Field
+                                    className="inputfield"
+                                        name="location"
+                                        required
+                                    />
+
+                                </div>
+                                <FieldError message={props.touched.location && props.errors.location} />
 
                             </div>
 

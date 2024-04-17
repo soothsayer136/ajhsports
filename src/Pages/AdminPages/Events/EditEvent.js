@@ -22,7 +22,7 @@ function EditEvent({ modalIsOpen, closeModal, getRoute, data }) {
             } else toast.error('Failed')
         } catch (ERR) {
             console.log(ERR)
-            toast.error(ERR.response.data.msg)
+            toast.error(ERR.response.data.message)
         }
     }
 
@@ -38,6 +38,8 @@ function EditEvent({ modalIsOpen, closeModal, getRoute, data }) {
         startTime: yup.string()
             .required('This Field is required'),
         endTime: yup.string()
+            .required('This Field is required'),
+        location: yup.string()
             .required('This Field is required'),
         occurrence: yup.array().of(yup.string().required('This Field is required')),
     });
@@ -116,6 +118,7 @@ function EditEvent({ modalIsOpen, closeModal, getRoute, data }) {
                         startTime: data?.startTime,
                         endTime: data?.endTime,
                         occurrence: data?.occurrence,
+                        location: data?.location,
                     }}
                     validationSchema={validationSchema}
                     onSubmit={(values, actions) => {
@@ -244,6 +247,22 @@ function EditEvent({ modalIsOpen, closeModal, getRoute, data }) {
                                         options={occurrenceType} />
                                 </div>
                                 <FieldError message={props.touched.occurrence && props.errors.occurrence} />
+
+                            </div>
+
+                            <div className=''>
+                                <label htmlFor="location" className="block  text-sm font-medium leading-6 text-gray-900">
+                                    Location
+                                </label>
+                                <div className="mt-2">
+                                    <Field
+                                        className="inputfield"
+                                        name="location"
+                                        required
+                                    />
+
+                                </div>
+                                <FieldError message={props.touched.location && props.errors.location} />
 
                             </div>
 

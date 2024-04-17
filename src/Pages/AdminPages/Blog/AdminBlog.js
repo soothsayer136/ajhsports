@@ -34,7 +34,7 @@ function AdminBlog() {
             } else toast.error('Failed')
         } catch (ERR) {
             console.log(ERR)
-            toast.error(ERR.response.data.msg)
+            toast.error(ERR.response.data.message)
         }
     }
 
@@ -65,7 +65,7 @@ function AdminBlog() {
 
         } catch (ERR) {
             console.log(ERR)
-            toast.error(ERR.response.data.msg)
+            toast.error(ERR.response.data.message)
         }
     }
 
