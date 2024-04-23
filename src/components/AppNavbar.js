@@ -53,7 +53,7 @@ const AppNavbar = () => {
         //     name: 'events', href: '/category',
         //     children: categoryData ? categoryData : []
         // },
-        { name: 'Bookings', href: '/product' },
+        { name: 'Bookings', href: '/coaching' },
         { name: 'About Us', href: '/about' },
     ]
 
@@ -98,8 +98,6 @@ const AppNavbar = () => {
         }, 400)
     };
 
-
-    console.log("authUSer", authUser);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     const searchFunction = () => {

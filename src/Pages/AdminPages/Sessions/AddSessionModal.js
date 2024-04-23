@@ -7,53 +7,59 @@ import Modal from 'react-modal'
 import * as yup from 'yup';
 import FieldError from '../../../components/FieldError'
 import Select from 'react-select'
+import { useNavigate } from 'react-router-dom'
 
 function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
 
+    const navigate = useNavigate()
     const uploadRef = useRef(null)
     const handleImage = (value) => {
         if (value) {
             setImage(value)
         }
     }
+
     const [image, setImage] = useState()
+
     const handleButtonClick = () => {
         // Access and interact with the DOM element
         if (uploadRef.current) {
             uploadRef.current.click()
         }
     }
+
     const handleFormSubmit = async (values, actions) => {
         try {
-            let result = await axios.post('/session', values)
+
+            const formData = new FormData()
+
+            for (let value in values) {
+                if (typeof values[value] === "object") {
+                    formData.append(value, JSON.stringify(values[value]))
+                } else formData.append(value, values[value])
+            }
+
+            if (image) {
+                formData.append('image', image)
+            }
+
+            let result = await axios.post('/coaching', formData)
 
             if (result.data.success) {
                 toast.success('Session Added Successfully')
-                closeModal()
-                getRoute()
+                navigate('/dashboard/sessions')
             } else toast.error('Failed')
         } catch (ERR) {
             console.log(ERR)
-            toast.error(ERR.response.data.message)
+            toast.error(ERR?.response?.data?.message)
         }
     }
 
     const validationSchema = yup.object({
-        sessionName: yup.string()
+        title: yup.string()
             .required('This Field is required'),
-        sessionDescription: yup.string()
+        description: yup.string()
             .required('This Field is required'),
-        startDate: yup.string()
-            .required('This Field is required'),
-        endDate: yup.string()
-            .required('This Field is required'),
-        startTime: yup.string()
-            .required('This Field is required'),
-        endTime: yup.string()
-            .required('This Field is required'),
-        location: yup.string()
-            .required('This Field is required'),
-        occurrence: yup.array().of(yup.string().required('This Field is required')),
     });
 
     const occurrenceType = [
@@ -95,6 +101,10 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
         },
     ]
 
+    // image: { type: String },
+    // title: { type: String, required: true },
+    // description: { type: String, required: true },
+    // price: { type: [Price]},
 
     return (
         <>
@@ -106,7 +116,7 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
                 overlayClassName="Overlay"
                 className="Modal rounded-md p-5 md:w-2/4 max-h-screen overflow-auto"
             > */}
-            <div className='max-w-7xl mx-auto'>
+            <div className='max-w-7xl mx-auto p-5'>
 
                 <h1 className="text-4xl font-bold tracking-tight text-gray-900">Add Session</h1>
 
@@ -130,37 +140,36 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
                         {(props) => (
                             <Form className='gap-3 grid'>
                                 <div className=''>
-                                    {console.log(props.values)}
-                                    <label htmlFor="sessionName" className="block text-sm font-medium leading-6 text-gray-900">
+                                    <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
                                         Session Name
                                     </label>
                                     <div className="mt-2">
                                         <Field
-                                            id="sessionName"
-                                            name="sessionName"
-                                            autoComplete="sessionName"
+                                            id="title"
+                                            name="title"
+                                            autoComplete="title"
                                             required
                                             className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
-                                    <FieldError message={props.touched.sessionName && props.errors.sessionName} />
+                                    <FieldError message={props.touched.title && props.errors.title} />
 
                                 </div>
                                 <div>
-                                    <label htmlFor="sessionDescription" className="block text-sm font-medium leading-6 text-gray-900">
+                                    <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
                                         Session Description
                                     </label>
                                     <div className="mt-2">
                                         <Field
                                             as="textarea"
-                                            id="sessionDescription"
-                                            name="sessionDescription"
-                                            autoComplete="sessionDescription"
+                                            id="description"
+                                            name="description"
+                                            autoComplete="description"
                                             required
                                             className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
-                                    <FieldError message={props.touched.sessionDescription && props.errors.sessionDescription} />
+                                    <FieldError message={props.touched.description && props.errors.description} />
                                 </div>
                                 <div className=''>
                                     <span className='font-semibold'>Image</span>
@@ -211,7 +220,7 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
                                     <FieldArray
                                         name="price"
                                         render={arrayHelpers => (
-                                            <div className='grid grid-cols-2 gap-3 mt-3'>
+                                            <div className='grid md:grid-cols-2 gap-3 mt-3'>
                                                 {props.values.price && props.values.price.length > 0 ? (
                                                     props.values.price.map((value, index) => (
                                                         <div key={index} className='border p-3 shadow rounded relative'>
@@ -288,13 +297,11 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
                                 <div className='col-span-full mt-4'>
                                     <button
                                         type="submit"
-                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 px-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5  text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
                                         Register
                                     </button>
                                 </div>
-
-
                             </Form>
                         )}
                     </Formik>

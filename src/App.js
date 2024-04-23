@@ -25,6 +25,8 @@ import EditBlog from './Pages/AdminPages/Blog/EditBlog';
 import SingleBlogPage from './Pages/Blog/SingleBlogPage';
 import AdminSessions from './Pages/AdminPages/Sessions/AdminSessions';
 import AddSessionModal from './Pages/AdminPages/Sessions/AddSessionModal';
+import EditSessionModal from './Pages/AdminPages/Sessions/EditSessionModal';
+import Coaching from './Pages/Coaching/Coaching';
 
 function App() {
 
@@ -44,6 +46,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/events" element={<EventPage />} />
               <Route path="/blogs" element={<BlogPage />} />
+              <Route path="/coaching" element={<Coaching />} />
 
               {/* Admin Pages */}
 
@@ -141,6 +144,14 @@ function App() {
                 element={
                   <ProtectedAdminRoute>
                     <AddSessionModal/>
+                  </ProtectedAdminRoute>
+                }
+              />
+              <Route
+                path="/dashboard/sessions/editsession/:id"
+                element={
+                  <ProtectedAdminRoute>
+                    <EditSessionModal/>
                   </ProtectedAdminRoute>
                 }
               />

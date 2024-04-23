@@ -32,7 +32,7 @@ function AdminSessions() {
                 confirmButtonText: 'Yes, Delete it!'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    let result = await axios.delete('session/delete-session/' + id)
+                    let result = await axios.delete('coaching/' + id)
                     if (result.data.success) {
                         getAllSession()
                         toast.success('Deleted Successfully')
@@ -136,8 +136,8 @@ function AdminSessions() {
                                 sessionData.map((value, index) => (
                                     <tr key={index} className='border-b'>
                                         <td className='p-3'>{index + 1}</td>
-                                        <td className='p-3'>{value?.sessionName}</td>
-                                        <td className='p-3'>{value?.sessionDescription}</td>
+                                        <td className='p-3'>{value?.title}</td>
+                                        <td className='p-3'>{value?.description}</td>
                                         <td className='p-3 flex gap-2 flex-wrap max-w-fit'>
                                             <button className='bg-red-700 text-white p-2 rounded' onClick={() => {
                                                 removeItem(value._id)
@@ -145,6 +145,7 @@ function AdminSessions() {
                                             <button onClick={() => {
                                                 setSelectedSessionData(value)
                                                 openEditModal()
+                                                navigate('/dashboard/sessions/editsession/' +  value?._id)
                                             }} className='bg-blue-700 text-white p-2 rounded'>
                                                 <FaEdit />
                                             </button>
