@@ -27,6 +27,8 @@ import AdminSessions from './Pages/AdminPages/Sessions/AdminSessions';
 import AddSessionModal from './Pages/AdminPages/Sessions/AddSessionModal';
 import EditSessionModal from './Pages/AdminPages/Sessions/EditSessionModal';
 import Coaching from './Pages/Coaching/Coaching';
+import Success from './Pages/payment/Success';
+import Failed from './Pages/payment/Failed';
 
 function App() {
 
@@ -47,6 +49,8 @@ function App() {
               <Route path="/events" element={<EventPage />} />
               <Route path="/blogs" element={<BlogPage />} />
               <Route path="/coaching" element={<Coaching />} />
+              <Route path="/success" element={<Success />} />
+              <Route path="/failure" element={<Failed />} />
 
               {/* Admin Pages */}
 

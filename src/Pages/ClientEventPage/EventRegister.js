@@ -5,9 +5,13 @@ import Modal from 'react-modal'
 
 function EventRegister({ data, modalIsOpen, closeModal }) {
 
+  console.log(data)
+
   const register = async () => {
     try {
-      let result = await axios.post('/registerevent')
+      let result = await axios.post('/event-register', {
+        event: data?._id
+      })
 
       if (result.data.success) {
         toast.success('Registration Successfull')
@@ -32,8 +36,13 @@ function EventRegister({ data, modalIsOpen, closeModal }) {
 
       <div className='grid gap-2 mt-4'>
 
+        Are you sure you want to register?
+
         <div className='col-span-full mt-4 flex gap-3 items-center'>
           <button
+            onClick={() => {
+              register()
+            }}
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 px-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >

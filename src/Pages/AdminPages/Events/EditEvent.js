@@ -263,7 +263,6 @@ function EditEvent({ modalIsOpen, closeModal, getRoute, data }) {
 
                                 </div>
                                 <FieldError message={props.touched.location && props.errors.location} />
-
                             </div>
 
 
