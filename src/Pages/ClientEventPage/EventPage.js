@@ -5,6 +5,7 @@ import { FaArrowRight } from 'react-icons/fa'
 import axios from '../../axios'
 import toast from 'react-hot-toast'
 import EventDescModal from '../../components/EventDescModal'
+import EventRegister from './EventRegister'
 
 function EventPage() {
 
@@ -34,9 +35,13 @@ function EventPage() {
     const [eventData, setEventData] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedElement, setSelectedElement] = useState(false)
+    const [registerModalIsOpen, setRegisterModalIsOpen] = useState(false)
 
     const closeModal = () => {
         setIsModalOpen(false)
+    }
+    const closeRegistrationModal = () => {
+        setRegisterModalIsOpen(false)
     }
 
     const getAllEvent = async () => {
@@ -73,6 +78,10 @@ function EventPage() {
                 isModalOpen &&
                 <EventDescModal closeModal={closeModal} data={selectedElement} modalIsOpen={isModalOpen} />
             }
+            {
+                registerModalIsOpen &&
+                <EventRegister closeModal={closeRegistrationModal} data={selectedElement} modalIsOpen={registerModalIsOpen} />
+            }
 
             <div className='text-center max-w-7xl mx-auto py-20'>
                 <h1 className='text-4xl font-bold'>Our Events.</h1>
@@ -98,10 +107,11 @@ function EventPage() {
                                     <label className='font-semibold text-xl capitalize'>{value?.eventName}</label>
                                     <label className='text-gray-400'>{value?.location}</label>
                                 </div>
-                                <div className='flex gap-4 items-center font-semibold'>
-                                    <button onClick={(e) => {
+                                <div className='flex gap-4 items-center font-semibold' role='button'  onClick={(e) => {
+                                        setRegisterModalIsOpen(true)
                                         e.stopPropagation()
-                                    }} className='bg-orange-500 p-2  rounded-full'><FaArrowRight /></button> Register Now</div>
+                                    }}>
+                                    <span className='bg-orange-500 p-2  rounded-full'><FaArrowRight /></span> Register Now</div>
                             </div>
                         ))
                     }

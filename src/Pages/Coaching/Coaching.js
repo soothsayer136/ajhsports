@@ -119,38 +119,6 @@ function Coaching() {
                         ))
                     }
                 </div>
-
-                {/* <table class="table-auto mx-auto text-left shadow rounded overflow-hidden border">
-                    <thead>
-                        <tr className='bg-[#F8F8F8]'>
-                            <th className='border py-2 px-5'> </th>
-                            {
-                                packageList.price.map((value, index) => (
-                                    <th className='border py-2 px-5' key={index}>{value?.name}</th>
-                                ))
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr className='bg-white'>
-                            <td className='border py-2 px-5'>Private</td>
-                            {
-                                packageList.price.map((value, index) => (
-                                    <td className='border py-2 px-5' key={index}>$ {value?.private}</td>
-                                ))
-                            }
-                        </tr>
-                        <tr className='bg-[#F8F8F8]'>
-                            <td className='border py-2 px-5'>Group</td>
-                            {
-                                packageList.price.map((value, index) => (
-                                    <td className='border py-2 px-5' key={index}>$ {value?.group}</td>
-                                ))
-                            }
-                        </tr>
-                    </tbody>
-                </table> */}
-
             </Modal>
 
             <div className='max-w-7xl mx-auto py-10 px-5 mb-10'>
