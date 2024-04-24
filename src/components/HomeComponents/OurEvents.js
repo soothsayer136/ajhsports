@@ -5,6 +5,7 @@ import { FaArrowRight } from 'react-icons/fa'
 import axios from '../../axios'
 import toast from 'react-hot-toast'
 import EventDescModal from '../EventDescModal'
+import EventRegister from '../../Pages/ClientEventPage/EventRegister'
 
 function OurEvents() {
 
@@ -34,6 +35,7 @@ function OurEvents() {
     const [eventData, setEventData] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedElement, setSelectedElement] = useState(false)
+    const [registerModalIsOpen, setRegisterModalIsOpen] = useState(false)
 
     const closeModal = () => {
         setIsModalOpen(false)
@@ -63,6 +65,9 @@ function OurEvents() {
         getAllEvent()
     }, [])
 
+    const closeRegistrationModal = () => {
+        setRegisterModalIsOpen(false)
+    }
 
     return (
         <div className='lg:p-20 p-10 bg-left-bottom' style={{
@@ -72,6 +77,11 @@ function OurEvents() {
                 isModalOpen &&
                 <EventDescModal closeModal={closeModal} data={selectedElement} modalIsOpen={isModalOpen} />
             }
+            {
+                registerModalIsOpen &&
+                <EventRegister closeModal={closeRegistrationModal} data={selectedElement} modalIsOpen={registerModalIsOpen} />
+            }
+
             <div className='text-center max-w-7xl mx-auto py-20'>
                 <h1 className='text-4xl font-bold'>Our Events.</h1>
                 <div className='mt-4 max-w-2xl mx-auto'>
@@ -96,10 +106,12 @@ function OurEvents() {
                                     <label className='font-semibold text-xl capitalize'>{value?.eventName}</label>
                                     <label className='text-gray-400'>{value?.location}</label>
                                 </div>
-                                <div className='flex gap-4 items-center font-semibold'>
-                                    <button onClick={(e) => {
-                                        e.stopPropagation()
-                                    }} className='bg-orange-500 p-2  rounded-full'><FaArrowRight /></button> Register Now</div>
+                                <div className='flex gap-4 items-center font-semibold' role='button' onClick={(e) => {
+                                    setSelectedElement(value)
+                                    setRegisterModalIsOpen(true)
+                                    e.stopPropagation()
+                                }}>
+                                    <span className='bg-orange-500 p-2  rounded-full'><FaArrowRight /></span> Register Now</div>
                             </div>
                         ))
                     }

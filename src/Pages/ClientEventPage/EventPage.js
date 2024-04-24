@@ -106,10 +106,11 @@ function EventPage() {
                                     <label className='font-semibold text-xl capitalize'>{value?.eventName}</label>
                                     <label className='text-gray-400'>{value?.location}</label>
                                 </div>
-                                <div className='flex gap-4 items-center font-semibold' role='button'  onClick={(e) => {
-                                        setRegisterModalIsOpen(true)
-                                        e.stopPropagation()
-                                    }}>
+                                <div className='flex gap-4 items-center font-semibold' role='button' onClick={(e) => {
+                                    setSelectedElement(value)
+                                    setRegisterModalIsOpen(true)
+                                    e.stopPropagation()
+                                }}>
                                     <span className='bg-orange-500 p-2  rounded-full'><FaArrowRight /></span> Register Now</div>
                             </div>
                         ))

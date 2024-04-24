@@ -13,10 +13,12 @@ function EventRegister({ data, modalIsOpen, closeModal }) {
 
       if (result.data.success) {
         toast.success('Registration Successfull')
+        closeModal()
       } else toast.error('Failed')
     } catch (ERR) {
       console.log(ERR)
       toast.error(ERR.response.data.message)
+      closeModal()
     }
   }
 
