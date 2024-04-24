@@ -2,7 +2,6 @@ import React from 'react'
 import Modal from 'react-modal'
 
 function EventDescModal({ modalIsOpen, closeModal, data }) {
-    console.log(data)
     return (
         <Modal
             ariaHideApp={false}

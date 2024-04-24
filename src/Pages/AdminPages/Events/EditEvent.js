@@ -87,12 +87,8 @@ function EditEvent({ modalIsOpen, closeModal, getRoute, data }) {
 
     const [selectedOptions, setSelectedOptions] = useState()
 
-    console.log('data?.occurrence', selectedOccurence)
-
-
     const handleOption = (data) => {
         let newData = occurrenceType.filter(option => data.includes(option.value))
-        console.log(newData)
     }
 
 

@@ -67,7 +67,6 @@ function EventPage() {
         getAllEvent()
     }, [])
 
-    console.log(eventData)
 
     return (
         <div className='lg:p-20 p-10 bg-left-bottom' style={{

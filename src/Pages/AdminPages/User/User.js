@@ -70,7 +70,6 @@ function User() {
             })
 
             if (result.data.success) {
-                console.log(result.data)
                 setUserData(result.data.data)
                 setTotalUserCount(result.data.totalCount)
                 setTotalUserPage(Math.ceil(result.data.totalCount / userPageSize))
@@ -81,7 +80,6 @@ function User() {
         }
     }
 
-    console.log(userData)
 
     useEffect(() => {
         getAllUser()

@@ -10,6 +10,7 @@ function Profile() {
 
     const [profileDetails, setProfileDetails] = useState([])
     const [editProfile, setEditProfile] = useState()
+    const [bookingData, setBookingData] = useState()
 
     const openEditProfile = () => {
         setEditProfile(true)
@@ -32,6 +33,23 @@ function Profile() {
             console.log(ERR)
         }
     }
+
+    const getBookings = async () => {
+        try {
+            let result = await axios.get('/booking/my-booking/')
+            if (result.data.success) {
+                console.log(result.data.data.data)
+                setBookingData(result.data.data.data)
+
+            }
+        } catch (ERR) {
+            console.log(ERR)
+        }
+    }
+
+    useEffect(() => {
+        getBookings()
+    }, [])
 
     const uploadProfilePicture = async (img) => {
         try {
@@ -117,37 +135,55 @@ function Profile() {
                 </div>
             </div>
 
-            <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
-                <div className="w-full flex flex-col">
-                    <div className="flex-1 bg-white rounded-lg shadow-xl p-8">
-                        <h4 className="text-xl text-gray-900 font-bold">Personal Info</h4>
-                        <ul className="mt-2 text-gray-700">
-                            <li className="flex border-y py-2 gap-3">
-                                <span className="font-bold w-24">First Name:</span>
-                                <span className="text-gray-700">{profileDetails?.firstname}</span>
-                            </li>
-                            <li className="flex border-y py-2 gap-3">
-                                <span className="font-bold w-24">Last Name:</span>
-                                <span className="text-gray-700">{profileDetails?.lastname}</span>
-                            </li>
-                            <li className="flex border-y py-2 gap-3">
-                                <span className="font-bold w-24">Email:</span>
-                                <span className="text-gray-700">{profileDetails?.email}</span>
-                            </li>
-                            <li className="flex border-y py-2 gap-3">
-                                <span className="font-bold w-24">Contact:</span>
-                                <span className="text-gray-700">{profileDetails?.contact}</span>
-                            </li>
-                            <li className="flex border-y py-2 gap-3">
-                                <span className="font-bold w-24">Address:</span>
-                                <span className="text-gray-700">{profileDetails?.address}</span>
-                            </li>
-                        </ul>
-                    </div>
-
+            <div className='bg-white p-5 my-5 rounded-lg shadow-xl'>
+                <div className="px-4 sm:px-0">
+                    <h3 className="text-base font-semibold leading-7 text-gray-900">User Information</h3>
+                    <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details.</p>
                 </div>
-
+                <div className="mt-6 border-t border-gray-100">
+                    <dl className="divide-y divide-gray-100">
+                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <dt className="text-sm font-medium leading-6 text-gray-900">Full name</dt>
+                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{profileDetails?.firstname} {profileDetails?.lastname}</dd>
+                        </div>
+                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <dt className="text-sm font-medium leading-6 text-gray-900">Contact</dt>
+                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{profileDetails?.contact}</dd>
+                        </div>
+                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <dt className="text-sm font-medium leading-6 text-gray-900">Email address</dt>
+                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{profileDetails?.email}</dd>
+                        </div>
+                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <dt className="text-sm font-medium leading-6 text-gray-900">Address</dt>
+                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                {profileDetails?.address}
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
             </div>
+            <div className='bg-white p-5 my-5 rounded-lg shadow-xl'>
+                <div className="px-4 sm:px-0">
+                    <h3 className="text-base font-semibold leading-7 text-gray-900">My Bookings</h3>
+                    <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Coaching Bookings Details</p>
+                </div>
+                <div className="mt-6 border-t border-gray-100">
+                    <dl className="divide-y divide-gray-100">
+                        {
+                            bookingData?.map((value, index) => (
+                                <div key={index} className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 grid"><label className='semibold'>{value?.lesson?.title}</label> <label>Payment: {value?.is_payed === true ? "Successfull" : "Failed"}</label> </dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 grid"> <label className='semibold'>{value?.lesson_name} - {value?.lesson_type}</label> <label> AUD {value?.price}</label> </dd>
+                                </div>
+                            ))
+
+                        }
+
+                    </dl>
+                </div>
+            </div>
+
 
         </div >
     )

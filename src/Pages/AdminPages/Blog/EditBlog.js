@@ -31,8 +31,6 @@ function EditBlog() {
         }
     }
 
-    console.log(blogData)
-
     useEffect(() => {
         getBlog()
     }, [blogId])

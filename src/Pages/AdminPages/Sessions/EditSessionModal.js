@@ -27,7 +27,6 @@ function EditSessionModal() {
 
             if (result.data.success) {
                 setSessionData(result.data.data)
-                console.log(result.data.data)
             } else toast.error('Failed')
         } catch (ERR) {
             console.log(ERR)

@@ -70,7 +70,6 @@ function AdminEvents() {
             })
 
             if (result.data.success) {
-                console.log(result.data)
                 setEventData(result.data.data.data)
                 setTotalEventCount(result.data.totalCount)
                 setTotalEventPage(Math.ceil(result.data.totalCount / eventPageSize))
@@ -80,8 +79,6 @@ function AdminEvents() {
             toast.error(ERR.response.data.message)
         }
     }
-
-    console.log(eventData)
 
     useEffect(() => {
         getAllEvent()

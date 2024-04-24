@@ -3,15 +3,15 @@ import axios from '../../axios'
 import React, { useEffect, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import Modal from 'react-modal'
+import { BiLoader } from 'react-icons/bi'
 
 function Coaching() {
 
     const [sessionData, setSessionData] = useState([])
     const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const [packageList, setPackageList] = useState()
-
-    console.log('packageList', packageList)
 
     const closeModal = () => {
         setModalIsOpen(false)
@@ -28,7 +28,6 @@ function Coaching() {
             })
 
             if (result.data.success) {
-                console.log(result.data)
                 setSessionData(result.data.data.data)
             } else toast.error('Failed')
         } catch (ERR) {
@@ -41,18 +40,10 @@ function Coaching() {
         getAllSession()
     }, [])
 
-    // useEffect(()=>{
-
-    // })
-
-    // Title:
-    // descip:
-
-
 
     const makePayment = async (value, type) => {
         try {
-
+            setIsLoading(true)
             const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PL)
 
             // const body = {
@@ -74,15 +65,29 @@ function Coaching() {
                 sessionId: response.data.id
             })
             if ((await result).error) {
+                setTimeout(() => {
+                    setIsLoading(false)
+                }, 500)
                 console.log((await result).error)
             }
         } catch (error) {
+            setTimeout(() => {
+                setIsLoading(false)
+                toast.error(error.response.data.message)
+            }, 500)
             console.log(error)
         }
     }
 
     return (
         <div>
+
+            {
+                isLoading &&
+                <div className='fixed h-screen top-0 w-full bg-black bg-opacity-65 z-[999999] grid place-items-center'>
+                    <label className='flex items-center gap-3 font-semibold text-white'><BiLoader className='animate-spin' /> Loading... </label>
+                </div>
+            }
 
             <Modal
                 ariaHideApp={false}

@@ -71,7 +71,6 @@ function AdminSessions() {
             })
 
             if (result.data.success) {
-                console.log(result.data)
                 setSessionData(result.data.data.data)
                 setTotalSessionCount(result.data.totalCount)
                 setTotalSessionPage(Math.ceil(result.data.totalCount / sessionPageSize))

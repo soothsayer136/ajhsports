@@ -227,7 +227,6 @@ function AddEvent({ modalIsOpen, closeModal, getRoute }) {
                                         required
                                         onChange={(e) => {
                                             const val = e.map((value) => value.value)
-                                            console.log('val', val)
                                             props.setFieldValue('occurrence', val)
                                         }}
                                         className='capitalize'

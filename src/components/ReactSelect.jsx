@@ -11,9 +11,6 @@ export const ReactSelect = ({
     isMulti = false
 }) => {
 
-    console.log('field', field)
-    console.log('form', form.values)
-
     const onChange = (option) => {
         form.setFieldValue(
             field.name,

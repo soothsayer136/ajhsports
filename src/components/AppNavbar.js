@@ -23,40 +23,12 @@ const AppNavbar = () => {
 
     let isAuthenticated = authUser?.isAuthenticated;
 
-    // const getAllCategory = async () => {
-    //     try {
-    //         let result = await axios.get('/category', {
-    //             params: {
-    //                 search: "",
-    //                 page: 1,
-    //                 size: 50
-    //             }
-    //         })
-
-    //         if (result.data.success) {
-    //             setCategoryData(result?.data?.data ? result?.data?.data : [])
-    //         } else toast.error('Failed')
-    //     } catch (ERR) {
-    //         console.log(ERR)
-    //         toast.error(ERR?.response?.data?.msg)
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     getAllCategory()
-    // }, [])
-
     const navigation = [
         { name: 'blogs', href: '/blogs' },
         { name: 'events', href: '/events' },
-        // {
-        //     name: 'events', href: '/category',
-        //     children: categoryData ? categoryData : []
-        // },
         { name: 'Bookings', href: '/coaching' },
         { name: 'About Us', href: '/about' },
     ]
-
 
     const scrollToTop = () => {
         window.scrollTo({
@@ -119,11 +91,6 @@ const AppNavbar = () => {
                     <div className="flex lg:flex-1">
                         <a href="/" className="-m-1.5 p-1.5">
                             <span className="font-bold text-xl">AJH Sports</span>
-                            {/* <img
-                                className="h-8 w-auto"
-                                src="/app_logo.png"
-                                alt="applogo"
-                            /> */}
                         </a>
                     </div>
                     <div className="flex lg:hidden">
@@ -165,20 +132,6 @@ const AppNavbar = () => {
                         ))}
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-5">
-                        {/* <div className='border flex '>
-                            <form onSubmit={(e) => {
-                                e.preventDefault()
-                                searchFunction()
-                            }} className='flex'>
-                                <input placeholder='Search Product' type='search' onChange={(e) => {
-                                    setKeyword(e.target.value)
-                                }} className='border rounded-l border-gray-400 p-2 text-sm' />
-                                <button type='submit' className='bg-blue-800 text-white text-sm p-2 rounded-r'>
-                                    <FaSearch size={14} />
-                                </button>
-                            </form>
-                        </div> */}
-
                         <div className="flex items-center">
                             <div className="  cursor-pointer ">
                                 <Link to={"/contact"}>
@@ -190,20 +143,6 @@ const AppNavbar = () => {
 
                             {isAuthenticated ? (
                                 <div className="flex items-center ml-4">
-                                    {/* <div className="flex items-center mr-8 gap-4">
-                                        <div className=" transform cursor-pointer hover:scale-110">
-                                            <Link to={"/wishlist"}>
-                                                <GoHeart size={23} strokeWidth={0.5} />
-                                            </Link>
-                                        </div>
-
-                                        <div className=" transform cursor-pointer hover:scale-110">
-                                            <Link to={"/cartpage"}>
-                                                <MdOutlineShoppingBag size={23} />
-                                            </Link>
-                                        </div>
-                                    </div> */}
-
                                     <div className="flex">
                                         <span className="group relative inline-block">
                                             <button
@@ -298,13 +237,6 @@ const AppNavbar = () => {
                                 </div>
                             )}
 
-                            {/* <MdOutlineMenu
-                                onClick={() => {
-                                    setSideNav(true);
-                                }}
-                                className="block lg:hidden cursor-pointer"
-                                size={25}
-                            /> */}
                         </div>
                     </div>
                 </nav>
@@ -347,7 +279,7 @@ const AppNavbar = () => {
                                         ))}
                                     </div>
 
-                                    <div className="py-2 flex items-center">
+                                    <div className="py-2 flex items-center justify-between">
 
                                         <div className="  cursor-pointer ">
                                             <Link to={"/contact"}>
@@ -361,110 +293,77 @@ const AppNavbar = () => {
                                         </div>
 
                                         {isAuthenticated ? (
-                                            <div className="flex items-center">
-                                                <div className="flex items-center mr-8 gap-4">
-                                                    <div
-                                                        onClick={notificationHandler}
-                                                        className="relative transform cursor-pointer hover:scale-110"
-                                                    >
-                                                        <img src="/notification.png" />
-                                                        <div className="animate-ping w-2 h-2 rounded-full bg-red-400 border border-white absolute left-3 top-0" />
+                                            <span className="group relative inline-block">
+                                                <button
+                                                    type="button"
+                                                    className="flex items-center mr-3 text-sm md:mr-0 h-full cursor-pointer"
+                                                    id="user-menu-button"
+                                                    data-dropdown-toggle="dropdown"
+                                                >
+                                                    <div className=" overflow-hidden rounded-full">
+                                                        {authUser?.userDetails?.image ? (
+                                                            <img
+                                                                className="w-7 rounded-full object-cover object-center sm:w-8 md:w-8 h-7"
+                                                                src={`${process.env.REACT_APP_BASE_URI}${authUser?.userDetails?.image}`}
+                                                                alt="user photo"
+                                                            />
+                                                        ) : (
+                                                            <img
+                                                                className="w-7 rounded-full object-cover object-center sm:w-8 md:w-7 h-7 border"
+                                                                src="/defaultUserImage.png"
+                                                                alt="user photo"
+                                                            />
+                                                        )}
                                                     </div>
 
-                                                    <div className=" transform cursor-pointer hover:scale-110">
-                                                        <Link to={"/wishlist"}>
-                                                            <img src="/heartoutline.png" />
+                                                </button>
 
-                                                        </Link>
-                                                    </div>
-
-                                                    <div className=" transform cursor-pointer hover:scale-110">
-                                                        <Link to={"/like"}>
-                                                            <FaThumbsUp size={20} className="" />
-                                                        </Link>
-                                                    </div>
-
-                                                    <div className=" transform cursor-pointer hover:scale-110">
-                                                        <Link to={"/cartpage"}>
-                                                            <img src="/Cart.png" />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-
-                                                <div className="flex">
-                                                    <span className="group relative inline-block">
-                                                        <button
-                                                            type="button"
-                                                            className="flex items-center mr-3 text-sm md:mr-0 h-full cursor-pointer"
-                                                            id="user-menu-button"
-                                                            data-dropdown-toggle="dropdown"
-                                                        >
-                                                            <div className=" overflow-hidden rounded-full">
-                                                                {authUser?.userDetails?.image ? (
-                                                                    <img
-                                                                        className="w-7 rounded-full object-cover object-center sm:w-8 md:w-8 h-7"
-                                                                        src={`${process.env.REACT_APP_BASE_URI}${authUser?.userDetails?.image}`}
-                                                                        alt="user photo"
-                                                                    />
-                                                                ) : (
-                                                                    <img
-                                                                        className="w-7 rounded-full object-cover object-center sm:w-8 md:w-7 h-7 border"
-                                                                        src="/defaultUserImage.png"
-                                                                        alt="user photo"
-                                                                    />
-                                                                )}
-                                                            </div>
-
-                                                        </button>
-
-                                                        <ul className="absolute right-0 hidden pt-1 w-40 p-2 border rounded bg-white text-gray-700 group-hover:block">
-                                                            <Link to={"/profile"}>
-                                                                <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
-                                                                    <div className="flex items-center">
-                                                                        <svg
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            className="icon icon-tabler icon-tabler-user"
-                                                                            width={20}
-                                                                            height={20}
-                                                                            viewBox="0 0 24 24"
-                                                                            strokeWidth={2}
-                                                                            stroke="currentColor"
-                                                                            fill="none"
-                                                                            strokeLinecap="round"
-                                                                            strokeLinejoin="round"
-                                                                        >
-                                                                            <path stroke="none" d="M0 0h24v24H0z" />
-                                                                            <circle cx={12} cy={7} r={4} />
-                                                                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                                                                        </svg>
-                                                                        <span className="ml-2">My Profile</span>
-                                                                    </div>
-                                                                </li>
-                                                            </Link>
-                                                            <li
-                                                                onClick={() => logout()}
-                                                                className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none flex items-center"
-                                                            >
+                                                <ul className="absolute right-0 hidden pt-1 w-40 p-2 border rounded bg-white text-gray-700 group-hover:block">
+                                                    <Link to={"/profile"}>
+                                                        <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
+                                                            <div className="flex items-center">
                                                                 <svg
                                                                     xmlns="http://www.w3.org/2000/svg"
-                                                                    className="h-5 w-6"
-                                                                    fill="none"
+                                                                    className="icon icon-tabler icon-tabler-user"
+                                                                    width={20}
+                                                                    height={20}
                                                                     viewBox="0 0 24 24"
+                                                                    strokeWidth={2}
                                                                     stroke="currentColor"
+                                                                    fill="none"
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
                                                                 >
-                                                                    <path
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        strokeWidth="2"
-                                                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                                                                    />
+                                                                    <path stroke="none" d="M0 0h24v24H0z" />
+                                                                    <circle cx={12} cy={7} r={4} />
+                                                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                                                                 </svg>
-                                                                <span className="ml-2">Log Out</span>
-                                                            </li>
-                                                        </ul>
-                                                    </span>
-                                                </div>
-                                            </div>
+                                                                <span className="ml-2">My Profile</span>
+                                                            </div>
+                                                        </li>
+                                                    </Link>
+                                                    <li
+                                                        onClick={() => logout()}
+                                                        className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none flex items-center"
+                                                    >
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            className="h-5 w-6"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="2"
+                                                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                                                            />
+                                                        </svg>
+                                                        <span className="ml-2">Log Out</span>
+                                                    </li>
+                                                </ul>
+                                            </span>
                                         ) : (
                                             <div className="py-6 w-full">
                                                 <a

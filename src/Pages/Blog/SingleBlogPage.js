@@ -23,7 +23,6 @@ function SingleBlogPage() {
 
             if (result.data.success) {
                 setBlogData(result?.data?.data)
-                console.log(result.data.data)
                 // setRandomBlogData(result?.data?.data?.content)
             } else toast.error('Failed')
         } catch (ERR) {
@@ -44,8 +43,6 @@ function SingleBlogPage() {
             toast.error(ERR.response.data.message)
         }
     }
-
-    console.log(blogData)
 
     useEffect(() => {
         getBlog()
