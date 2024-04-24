@@ -1,10 +1,22 @@
 import toast from 'react-hot-toast'
 import axios from '../../axios'
 import React, { useEffect, useState } from 'react'
+import { loadStripe } from '@stripe/stripe-js'
+import Modal from 'react-modal'
 
 function Coaching() {
 
     const [sessionData, setSessionData] = useState([])
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+
+    const [packageList, setPackageList] = useState()
+
+    console.log('packageList', packageList)
+
+    const closeModal = () => {
+        setModalIsOpen(false)
+        setPackageList(undefined)
+    }
 
     const getAllSession = async () => {
         try {
@@ -29,10 +41,118 @@ function Coaching() {
         getAllSession()
     }, [])
 
-    console.log('sessionData', sessionData)
+    // useEffect(()=>{
+
+    // })
+
+    // Title:
+    // descip:
+
+
+
+    const makePayment = async (value, type) => {
+        try {
+
+            const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PL)
+
+            // const body = {
+            //     lesson_name: "",
+            //     lesson: "lessoniD",
+            //     lesson_type: "private",
+            //     price: "400"
+            // }
+            const body = {
+                lesson_name: value?.name,
+                lesson: packageList?._id,
+                lesson_type: type,
+                price: value[type]
+            }
+
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URI}booking/create-intent`, body)
+            console.log("response", response)
+            const result = stripe.redirectToCheckout({
+                sessionId: response.data.id
+            })
+            if ((await result).error) {
+                console.log((await result).error)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div>
+
+            <Modal
+                ariaHideApp={false}
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Choose Option"
+                overlayClassName="Overlay"
+                className="Modal rounded-md p-5 md:w-2/4 max-h-screen overflow-auto"
+            >
+
+                <p className='font-semibold'>Choose a Package of - "{packageList?.title}"</p>
+
+                <div className='grid gap-2 mt-4'>
+
+                    {
+                        packageList?.price.map((value, index) => (
+                            <div className='py-3 '>
+                                <p className='font-semibold' key={index}>{value?.name}</p>
+                                <div className='flex items-center gap-3 mt-1'>
+                                    <div className='flex  hover:bg-blue-300 w-fit p-2 border border-blue-100 rounded ' role='button' onClick={() => {
+                                        makePayment(value, "private")
+                                    }}>
+                                        <label>Private - </label>
+                                        <p className='' key={index}> $ {value?.private}</p>
+                                    </div>
+                                    <div className='flex  hover:bg-blue-300 w-fit p-2 border rounded border-blue-100' role='button' onClick={() => {
+                                        makePayment(value, "group")
+                                    }}>
+                                        <label>Group - </label>
+                                        <p className='' key={index}> $ {value?.group}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+
+                {/* <table class="table-auto mx-auto text-left shadow rounded overflow-hidden border">
+                    <thead>
+                        <tr className='bg-[#F8F8F8]'>
+                            <th className='border py-2 px-5'> </th>
+                            {
+                                packageList.price.map((value, index) => (
+                                    <th className='border py-2 px-5' key={index}>{value?.name}</th>
+                                ))
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr className='bg-white'>
+                            <td className='border py-2 px-5'>Private</td>
+                            {
+                                packageList.price.map((value, index) => (
+                                    <td className='border py-2 px-5' key={index}>$ {value?.private}</td>
+                                ))
+                            }
+                        </tr>
+                        <tr className='bg-[#F8F8F8]'>
+                            <td className='border py-2 px-5'>Group</td>
+                            {
+                                packageList.price.map((value, index) => (
+                                    <td className='border py-2 px-5' key={index}>$ {value?.group}</td>
+                                ))
+                            }
+                        </tr>
+                    </tbody>
+                </table> */}
+
+            </Modal>
+
             <div className='max-w-7xl mx-auto py-10 px-5 mb-10'>
                 <h1 className='lg:text-6xl text-4xl font-bold text-center mt-10'>Coaching</h1>
 
@@ -63,7 +183,7 @@ function Coaching() {
                                         <tr className='bg-[#F8F8F8]'>
                                             <th className='border py-2 px-5'> </th>
                                             {
-                                                value.price.map((value, index) => (
+                                                value?.price.map((value, index) => (
                                                     <th className='border py-2 px-5' key={index}>{value?.name}</th>
                                                 ))
                                             }
@@ -73,7 +193,7 @@ function Coaching() {
                                         <tr className='bg-white'>
                                             <td className='border py-2 px-5'>Private</td>
                                             {
-                                                value.price.map((value, index) => (
+                                                value?.price.map((value, index) => (
                                                     <td className='border py-2 px-5' key={index}>$ {value?.private}</td>
                                                 ))
                                             }
@@ -81,7 +201,7 @@ function Coaching() {
                                         <tr className='bg-[#F8F8F8]'>
                                             <td className='border py-2 px-5'>Group</td>
                                             {
-                                                value.price.map((value, index) => (
+                                                value?.price.map((value, index) => (
                                                     <td className='border py-2 px-5' key={index}>$ {value?.group}</td>
                                                 ))
                                             }
@@ -89,7 +209,10 @@ function Coaching() {
                                     </tbody>
                                 </table>
 
-                                <button className='mx-auto btn-primary' >Register Now</button>
+                                <button className='mx-auto btn-primary' onClick={() => {
+                                    setModalIsOpen(true)
+                                    setPackageList(value)
+                                }}>Register Now</button>
 
                             </div>
                         </div>
