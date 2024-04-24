@@ -177,7 +177,6 @@ function Profile() {
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 grid"> <label className='semibold'>{value?.lesson_name} - {value?.lesson_type}</label> <label> AUD {value?.price}</label> </dd>
                                 </div>
                             ))
-
                         }
 
                     </dl>

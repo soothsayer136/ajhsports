@@ -29,6 +29,7 @@ import EditSessionModal from './Pages/AdminPages/Sessions/EditSessionModal';
 import Coaching from './Pages/Coaching/Coaching';
 import Success from './Pages/payment/Success';
 import Failed from './Pages/payment/Failed';
+import About from './Pages/About/About';
 
 function App() {
 
@@ -51,6 +52,7 @@ function App() {
               <Route path="/coaching" element={<Coaching />} />
               <Route path="/success" element={<Success />} />
               <Route path="/failure" element={<Failed />} />
+              <Route path="/about" element={<About />} />
 
               {/* Admin Pages */}
 
