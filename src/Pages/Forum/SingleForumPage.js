@@ -139,6 +139,7 @@ function SingleForumPage() {
                             <div className="flex justify-start items-start">
                                 <p className="text-2xl lg:text-3xl font-semibold leading-7 lg:leading-9 text-gray-800">Discussions</p>
                             </div>
+                            
                             {
                                 commentData?.comments.map((value, index) => (
 
