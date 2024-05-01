@@ -50,7 +50,7 @@ function EventPage() {
                 params: {
                     search: "",
                     page: 1,
-                    size: 4
+                    limit: 4
                 }
             })
 

@@ -23,7 +23,7 @@ function Coaching() {
             let result = await axios.get('/coaching', {
                 params: {
                     page: 1,
-                    size: 20
+                    limit: 20
                 }
             })
 

@@ -74,14 +74,14 @@ function AdminEvents() {
                 params: {
                     search: keyword,
                     page: currentEventPage,
-                    size: eventPageSize
+                    limit: eventPageSize
                 }
             })
 
             if (result.data.success) {
                 setEventData(result.data.data.data)
-                setTotalEventCount(result.data.totalCount)
-                setTotalEventPage(Math.ceil(result.data.totalCount / eventPageSize))
+                setTotalEventCount(result.data.data.totalCount)
+                setTotalEventPage(result.data.data.totalPage)
             } else toast.error('Failed')
         } catch (ERR) {
             console.log(ERR)

@@ -30,6 +30,7 @@ import Coaching from './Pages/Coaching/Coaching';
 import Success from './Pages/payment/Success';
 import Failed from './Pages/payment/Failed';
 import About from './Pages/About/About';
+import Forum from './Pages/Forum/Forum';
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
               <Route path="/success" element={<Success />} />
               <Route path="/failure" element={<Failed />} />
               <Route path="/about" element={<About />} />
+              <Route path="/forum" element={<Forum />} />
 
               {/* Admin Pages */}
 

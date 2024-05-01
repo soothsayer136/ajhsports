@@ -18,7 +18,7 @@ function BlogSection() {
                 params: {
                     search: '',
                     page: 1,
-                    size: 3
+                    limit: 3
                 }
             })
 

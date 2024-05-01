@@ -7,6 +7,7 @@ import AddSessionModal from './AddSessionModal'
 import EditSessionModal from './EditSessionModal'
 import { useNavigate } from 'react-router-dom'
 import { BiUser } from 'react-icons/bi'
+import SessionAttendance from './SessionAttendance'
 
 function AdminSessions() {
     const navigate = useNavigate()
@@ -65,10 +66,10 @@ function AdminSessions() {
     }
 
     const closeRegistrationModal = () => {
-        isRegistrationModalOpen(false)
+        setIsRegistrationModalOpen(false)
     }
     const openRegistrationModal = () => {
-        isRegistrationModalOpen(true)
+        setIsRegistrationModalOpen(true)
     }
 
     const getAllSession = async () => {
@@ -77,14 +78,14 @@ function AdminSessions() {
                 params: {
                     search: keyword,
                     page: currentSessionPage,
-                    size: sessionPageSize
+                    limit: sessionPageSize
                 }
             })
 
             if (result.data.success) {
                 setSessionData(result.data.data.data)
-                setTotalSessionCount(result.data.totalCount)
-                setTotalSessionPage(Math.ceil(result.data.totalCount / sessionPageSize))
+                setTotalSessionCount(result.data.data.totalCount)
+                setTotalSessionPage(result.data.data.totalPage)
             } else toast.error('Failed')
         } catch (ERR) {
             console.log(ERR)
@@ -114,6 +115,12 @@ function AdminSessions() {
                 />
 
             } */}
+
+            {
+                isRegistrationModalOpen &&
+                <SessionAttendance closeModal={closeRegistrationModal} modalIsOpen={isRegistrationModalOpen}
+                    getRoute={getAllSession} data={selectedSessionData} />
+            }
 
             <div className="flex items-baseline justify-between  pb-6 pt-5">
                 <h1 className="text-4xl font-bold tracking-tight text-gray-900">Sessions</h1>
@@ -150,6 +157,7 @@ function AdminSessions() {
                                         <td className='p-3'>{value?.description}</td>
                                         <td className='p-3 flex gap-2 flex-wrap max-w-fit min-w-max'>
                                             <button className='bg-blue-700 text-white p-2 rounded' onClick={() => {
+                                                setSelectedSessionData(value)
                                                 setIsRegistrationModalOpen(true)
                                             }}><FaUsers /></button>
                                             <button className='bg-red-700 text-white p-2 rounded' onClick={() => {

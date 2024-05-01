@@ -15,7 +15,7 @@ function Dashboard() {
         params: {
           search: "",
           page: 1,
-          size: 10
+          limit: 10
         }
       })
 
@@ -34,7 +34,7 @@ function Dashboard() {
         params: {
           search: "",
           page: 1,
-          size: 10
+          limit: 10
         }
       })
 
@@ -53,7 +53,7 @@ function Dashboard() {
         params: {
           search: "",
           page: 1,
-          size: 10
+          limit: 10
         }
       })
 
@@ -71,7 +71,7 @@ function Dashboard() {
         params: {
           search: "",
           page: 1,
-          size: 10
+          limit: 10
         }
       })
 

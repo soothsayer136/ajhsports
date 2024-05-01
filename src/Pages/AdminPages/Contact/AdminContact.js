@@ -21,14 +21,14 @@ function AdminContact() {
           params: {
             search: '',
             page: currentContactPage,
-            size: contactPageSize
+            limit: contactPageSize
           }
         })
 
         if (result.data.success) {
           setContactData(result?.data?.data.data)
-          setTotalContactCount(result?.data?.count)
-          setTotalContactPage(result?.data?.totalPage)
+          setTotalContactCount(result?.data?.data?.count)
+          setTotalContactPage(result?.data?.data?.totalPage)
         } else toast.error('Failed')
       } catch (ERR) {
         console.log(ERR)

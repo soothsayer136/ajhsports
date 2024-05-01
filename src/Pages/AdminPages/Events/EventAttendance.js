@@ -16,8 +16,8 @@ function EventAttendance({ modalIsOpen, closeModal, getRoute, data }) {
 
     const [userData, setUserData] = useState()
     const [currentUserPage, setCurrentUserPage] = useState()
-    const [userPageSize, setUserPageSize] = useState()
-    const [totalUserPage, setTotalUserPage] = useState()
+    const [userPageSize, setUserPageSize] = useState(1)
+    const [totalUserPage, setTotalUserPage] = useState(1)
     const [totalUserCount, setTotalUserCount] = useState()
 
     const handleFormSubmit = async (values, actions) => {
@@ -40,8 +40,10 @@ function EventAttendance({ modalIsOpen, closeModal, getRoute, data }) {
             let result = await axios.get('/event-register/' + data?._id)
 
             if (result.data.success) {
-                console.log(result)
-                setUserData(result.data.data)
+                console.log('result.data.data', result.data.data)
+                setUserData(result.data.data.data)
+                setTotalUserPage(result.data.data.totalPage)
+                setTotalUserCount(result.data.data.count)
                 // toast.success('User Edited Successfully')
             } else toast.error('Failed')
         } catch (ERR) {

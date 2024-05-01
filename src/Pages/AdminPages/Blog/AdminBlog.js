@@ -23,14 +23,14 @@ function AdminBlog() {
                 params: {
                     search: '',
                     page: currentBlogPage,
-                    size: blogPageSize
+                    limit: blogPageSize
                 }
             })
 
             if (result.data.success) {
                 setBlogData(result?.data?.data.blogs.data)
-                setTotalBlogCount(result?.data?.count)
-                setTotalBlogPage(result?.data?.totalPage)
+                setTotalBlogCount(result?.data?.data.blogs?.count)
+                setTotalBlogPage(result?.data?.data.blogs?.totalPage)
             } else toast.error('Failed')
         } catch (ERR) {
             console.log(ERR)

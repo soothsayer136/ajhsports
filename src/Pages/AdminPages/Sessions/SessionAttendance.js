@@ -1,78 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import AddUser from './AddUser'
 import axios from '../../../axios'
+import { Field, Form, Formik } from 'formik'
+import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import Swal from 'sweetalert2'
-import { FaEdit, FaTrashAlt } from 'react-icons/fa'
-import EditUser from './EditUser'
+import Modal from 'react-modal'
+import * as yup from 'yup';
+import FieldError from '../../../components/FieldError'
+import Select from 'react-select'
+import dayjs from 'dayjs'
+import ReactSelect from '../../../components/ReactSelect'
+import { BiCheck } from 'react-icons/bi'
 
-function User() {
+function SessionAttendance({ modalIsOpen, closeModal, getRoute, data }) {
 
-    const [isAddModalOpen, setIsAddModalOpen] = useState(false)
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-    const [userData, setUserData] = useState([])
-    const [selectedUserData, setSelectedUserData] = useState([])
+    console.log('first', data)
 
-    const [totalUserCount, setTotalUserCount] = useState(0)
+    const [userData, setUserData] = useState()
     const [currentUserPage, setCurrentUserPage] = useState(1)
+    const [userPageSize, setUserPageSize] = useState(1)
     const [totalUserPage, setTotalUserPage] = useState(1)
-    const [userPageSize, setUserPageSize] = useState(10)
-    const [keyword, setKeyword] = useState("")
+    const [totalUserCount, setTotalUserCount] = useState(1)
 
-    const removeItem = async (id) => {
+    const handleFormSubmit = async (values, actions) => {
         try {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Delete it!'
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    let result = await axios.delete('user/delete-user/' + id)
-                    if (result.data.success) {
-                        getAllUser()
-                        toast.success('Deleted Successfully')
-                    }
-                }
-            })
-
-        } catch (ERR) {
-            console.log(ERR)
-            toast.error(ERR.response.data.message)
-        }
-    }
-
-    const closeAddModal = () => {
-        setIsAddModalOpen(false)
-    }
-    const openAddModal = () => {
-        setIsAddModalOpen(true)
-    }
-
-    const closeEditModal = () => {
-        setIsEditModalOpen(false)
-    }
-    const openEditModal = () => {
-        setIsEditModalOpen(true)
-    }
-
-    const getAllUser = async () => {
-        try {
-            let result = await axios.get('/user/all', {
-                params: {
-                    search: keyword,
-                    page: currentUserPage,
-                    limit: userPageSize
-                }
-            })
+            let result = await axios.put('/user/' + data?.userSlug, values)
 
             if (result.data.success) {
-                setUserData(result.data.data)
-                setTotalUserCount(result.data.totalCount)
-                setTotalUserPage(Math.ceil(result.data.totalCount / userPageSize))
+                toast.success('User Edited Successfully')
+                closeModal()
+                getRoute()
             } else toast.error('Failed')
         } catch (ERR) {
             console.log(ERR)
@@ -80,52 +35,55 @@ function User() {
         }
     }
 
+    const getData = async () => {
+        try {
+            let result = await axios.get('/booking', {
+                params: {
+                    lesson: data?._id,
+                    limit: userPageSize,
+                    page: currentUserPage
+                }
+            })
+
+            if (result.data.success) {
+                console.log('result.data.data', result.data.data)
+                setUserData(result.data.data.data)
+                setTotalUserCount(result.data.data.count)
+                setTotalUserPage(result.data.data.totalPage)
+                // toast.success('User Edited Successfully')
+            } else toast.error('Failed')
+        } catch (ERR) {
+            console.log(ERR)
+            toast.error(ERR.response.data.message)
+        }
+    }
 
     useEffect(() => {
-        getAllUser()
-    }, [keyword, currentUserPage, userPageSize])
+        getData()
+    }, [])
+
 
     return (
-        <div className='mx-auto max-w-7xl px-4'>
+        <Modal
+            ariaHideApp={false}
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            contentLabel="Session Attendance"
+            overlayClassName="Overlay"
+            className="Modal rounded-md p-5 w-full max-w-7xl max-h-screen overflow-auto"
+        >
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900">Session Registrations of {data?.title}</h1>
 
-            {
-                isAddModalOpen &&
-
-                <AddUser closeModal={closeAddModal} modalIsOpen={isAddModalOpen}
-                    getRoute={getAllUser}
-                />
-
-            }
-            {
-                isEditModalOpen &&
-                <EditUser closeModal={closeEditModal} modalIsOpen={isEditModalOpen}
-                    getRoute={getAllUser} profileDetails={selectedUserData}
-                />
-
-            }
-
-            <div className="flex items-baseline justify-between  pb-6 pt-5">
-                <h1 className="text-4xl font-bold tracking-tight text-gray-900">Users</h1>
-                <button onClick={() => {
-                    openAddModal()
-                }} className='bg-blue-800 p-3 rounded-md text-white font-semibold px-4'>Add User</button>
-            </div>
-            <div>
-                <input className='border p-2' type='string' placeholder='Search' onChange={(e) => {
-                    setKeyword(e.target.value)
-                    setCurrentUserPage(1)
-                }} />
-            </div>
             <div className='w-full my-5  bg-white'>
                 <table className="table-auto rounded-lg border w-full text-left ">
                     <thead className='font-semibold border-b bg-blue-100'>
                         <tr className='opacity-75'>
                             <th className='p-3'>S.N</th>
-                            <th className='p-3'>First name</th>
-                            <th className='p-3'>Last name</th>
+                            <th className='p-3'>Full Name</th>
                             <th className='p-3'>Email</th>
-                            <th className='p-3'>Contact</th>
-                            {/* <th className='p-3'>Created Date</th> */}
+                            <th className='p-3'>Lesson Type</th>
+                            <th className='p-3'>Payment</th>
+                            {/* <th className='p-3'>Status</th> */}
                             <th className='p-3'>Actions</th>
                         </tr>
                     </thead>
@@ -137,19 +95,20 @@ function User() {
                                 userData.map((value, index) => (
                                     <tr key={index} className='border-b'>
                                         <td className='p-3'>{index + 1}</td>
-                                        <td className='p-3'>{value?.firstname}</td>
-                                        <td className='p-3'>{value?.lastname}</td>
-                                        <td className='p-3'>{value?.email}</td>
-                                        <td className='p-3'>{value?.contact}</td>
+                                        <td className='p-3'>{value?.user?.firstname} {value?.user?.lastname}</td>
+                                        <td className='p-3'>{value?.user?.email}</td>
+                                        <td className='p-3 uppercase font-semibold'>{value?.lesson_type}</td>
+                                        {/* <td className='p-3 uppercase font-semibold'>{value?.is_payed ? "success" : "Failed"}</td> */}
+                                        {value?.is_payed ?
+                                            <td className='p-3 text-green-700 font-semibold'>Success</td>
+                                            :
+                                            <td className='p-3 text-green-700 font-semibold'>Failed</td>}
                                         <td className='p-3 flex gap-2 flex-wrap max-w-fit'>
-                                            <button className='bg-red-700 text-white p-2 rounded' onClick={() => {
-                                                removeItem(value._id)
-                                            }}><FaTrashAlt /></button>
                                             <button onClick={() => {
-                                                setSelectedUserData(value)
-                                                openEditModal()
+                                                // setSelectedUserData(value)
+                                                // openEditModal()
                                             }} className='bg-blue-700 text-white p-2 rounded'>
-                                                <FaEdit />
+                                                <BiCheck />
                                             </button>
                                         </td>
                                     </tr>
@@ -212,9 +171,8 @@ function User() {
                 </div>
             </div>
 
-        </div>
-
+        </Modal>
     )
 }
 
-export default User
+export default SessionAttendance
