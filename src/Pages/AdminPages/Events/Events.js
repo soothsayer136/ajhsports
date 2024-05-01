@@ -2,14 +2,17 @@ import React, { useEffect, useState } from 'react'
 import axios from '../../../axios'
 import toast from 'react-hot-toast'
 import Swal from 'sweetalert2'
-import { FaEdit, FaTrashAlt } from 'react-icons/fa'
+import { FaEdit, FaTrashAlt, FaUser } from 'react-icons/fa'
 import AddEvent from './AddEvent'
 import EditEvent from './EditEvent'
+import EventAttendance from './EventAttendance'
 
 function AdminEvents() {
-    
+
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false)
+
     const [eventData, setEventData] = useState([])
     const [selectedEventData, setSelectedEventData] = useState([])
 
@@ -58,6 +61,12 @@ function AdminEvents() {
     const openEditModal = () => {
         setIsEditModalOpen(true)
     }
+    const closeAttendanceModal = () => {
+        setIsAttendanceModalOpen(false)
+    }
+    const openAttendanceModal = () => {
+        setIsAttendanceModalOpen(true)
+    }
 
     const getAllEvent = async () => {
         try {
@@ -102,6 +111,13 @@ function AdminEvents() {
                 />
 
             }
+            {
+                isAttendanceModalOpen &&
+                <EventAttendance closeModal={closeAttendanceModal} modalIsOpen={isAttendanceModalOpen}
+                    getRoute={getAllEvent} data={selectedEventData}
+                />
+
+            }
 
             <div className="flex items-baseline justify-between  pb-6 pt-5">
                 <h1 className="text-4xl font-bold tracking-tight text-gray-900">Events</h1>
@@ -136,6 +152,12 @@ function AdminEvents() {
                                         <td className='p-3'>{value?.eventName}</td>
                                         <td className='p-3'>{value?.eventDescription}</td>
                                         <td className='p-3 flex gap-2 flex-wrap max-w-fit'>
+                                            <button onClick={() => {
+                                                setSelectedEventData(value)
+                                                openAttendanceModal()
+                                            }} className='bg-blue-700 text-white p-2 rounded'>
+                                                <FaUser />
+                                            </button>
                                             <button className='bg-red-700 text-white p-2 rounded' onClick={() => {
                                                 removeItem(value._id)
                                             }}><FaTrashAlt /></button>

@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react'
 import axios from '../../../axios'
 import toast from 'react-hot-toast'
 import Swal from 'sweetalert2'
-import { FaEdit, FaTrashAlt } from 'react-icons/fa'
+import { FaEdit, FaTrashAlt, FaUsers } from 'react-icons/fa'
 import AddSessionModal from './AddSessionModal'
 import EditSessionModal from './EditSessionModal'
 import { useNavigate } from 'react-router-dom'
+import { BiUser } from 'react-icons/bi'
 
 function AdminSessions() {
     const navigate = useNavigate()
+
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+    const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false)
+
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [sessionData, setSessionData] = useState([])
     const [selectedSessionData, setSelectedSessionData] = useState([])
@@ -58,6 +62,13 @@ function AdminSessions() {
     }
     const openEditModal = () => {
         setIsEditModalOpen(true)
+    }
+
+    const closeRegistrationModal = () => {
+        isRegistrationModalOpen(false)
+    }
+    const openRegistrationModal = () => {
+        isRegistrationModalOpen(true)
     }
 
     const getAllSession = async () => {
@@ -137,14 +148,17 @@ function AdminSessions() {
                                         <td className='p-3'>{index + 1}</td>
                                         <td className='p-3'>{value?.title}</td>
                                         <td className='p-3'>{value?.description}</td>
-                                        <td className='p-3 flex gap-2 flex-wrap max-w-fit'>
+                                        <td className='p-3 flex gap-2 flex-wrap max-w-fit min-w-max'>
+                                            <button className='bg-blue-700 text-white p-2 rounded' onClick={() => {
+                                                setIsRegistrationModalOpen(true)
+                                            }}><FaUsers /></button>
                                             <button className='bg-red-700 text-white p-2 rounded' onClick={() => {
                                                 removeItem(value._id)
                                             }}><FaTrashAlt /></button>
                                             <button onClick={() => {
                                                 setSelectedSessionData(value)
                                                 openEditModal()
-                                                navigate('/dashboard/sessions/editsession/' +  value?._id)
+                                                navigate('/dashboard/sessions/editsession/' + value?._id)
                                             }} className='bg-blue-700 text-white p-2 rounded'>
                                                 <FaEdit />
                                             </button>

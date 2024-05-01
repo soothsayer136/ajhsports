@@ -27,6 +27,7 @@ const AppNavbar = () => {
         { name: 'blogs', href: '/blogs' },
         { name: 'events', href: '/events' },
         { name: 'Bookings', href: '/coaching' },
+        { name: 'Forum', href: '/forum' },
         { name: 'About Us', href: '/about' },
     ]
 
