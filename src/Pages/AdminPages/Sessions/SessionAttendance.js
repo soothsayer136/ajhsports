@@ -83,8 +83,7 @@ function SessionAttendance({ modalIsOpen, closeModal, getRoute, data }) {
                             <th className='p-3'>Email</th>
                             <th className='p-3'>Lesson Type</th>
                             <th className='p-3'>Payment</th>
-                            {/* <th className='p-3'>Status</th> */}
-                            <th className='p-3'>Actions</th>
+                            {/* <th className='p-3'>Actions</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -103,14 +102,12 @@ function SessionAttendance({ modalIsOpen, closeModal, getRoute, data }) {
                                             <td className='p-3 text-green-700 font-semibold'>Success</td>
                                             :
                                             <td className='p-3 text-green-700 font-semibold'>Failed</td>}
-                                        <td className='p-3 flex gap-2 flex-wrap max-w-fit'>
+                                        {/* <td className='p-3 flex gap-2 flex-wrap max-w-fit'>
                                             <button onClick={() => {
-                                                // setSelectedUserData(value)
-                                                // openEditModal()
                                             }} className='bg-blue-700 text-white p-2 rounded'>
                                                 <BiCheck />
                                             </button>
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 )))
                         }

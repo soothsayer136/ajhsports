@@ -57,7 +57,7 @@ function Profile() {
                 const formData = new FormData()
 
                 formData.append('image', img)
-                let result = await axios.put('/user/update-profile', formData)
+                let result = await axios.put('/user/update-image', formData)
                 if (result.data.success) {
                     toast.success('Image Uploaded')
                     const localData = JSON.parse(localStorage.getItem('_hw_userDetails'))
@@ -91,7 +91,7 @@ function Profile() {
                     {
                         profileDetails?.image ?
 
-                            <img alt='user' src={`${process.env.REACT_APP_BASE_URI}${profileDetails?.image}`} className="w-40 border-4 mt-5 border-white rounded-full" />
+                            <img alt='user' src={`${process.env.REACT_APP_IMG_URI}${profileDetails?.image}`} className="w-40 border-4 mt-5 border-white rounded-full" />
                             :
                             <img alt='user' src="/defaultUserImage.png" className="w-40 border-4 mt-5 border-white rounded-full" />
 

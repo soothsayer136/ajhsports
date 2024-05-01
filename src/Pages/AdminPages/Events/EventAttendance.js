@@ -52,6 +52,22 @@ function EventAttendance({ modalIsOpen, closeModal, getRoute, data }) {
         }
     }
 
+    const approveStatus = async (status, userId) => {
+        try {
+            let result = await axios.put(`event-register/${data?._id}/${userId}`, {
+                approved: status === true ? false : true
+            })
+
+            if (result.data.success) {
+                getData()
+                // toast.success('User Edited Successfully')
+            } else toast.error('Failed')
+        } catch (ERR) {
+            console.log(ERR)
+            toast.error(ERR.response.data.message)
+        }
+    }
+
     useEffect(() => {
         getData()
     }, [])
@@ -95,6 +111,7 @@ function EventAttendance({ modalIsOpen, closeModal, getRoute, data }) {
                                             <td className='p-3 text-green-700 font-semibold'>Not Approved</td>}
                                         <td className='p-3 flex gap-2 flex-wrap max-w-fit'>
                                             <button onClick={() => {
+                                                approveStatus(value?.approved, value?.user?._id)
                                                 // setSelectedUserData(value)
                                                 // openEditModal()
                                             }} className='bg-blue-700 text-white p-2 rounded'>

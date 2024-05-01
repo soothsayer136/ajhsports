@@ -31,6 +31,8 @@ import Success from './Pages/payment/Success';
 import Failed from './Pages/payment/Failed';
 import About from './Pages/About/About';
 import Forum from './Pages/Forum/Forum';
+import AddForum from './Pages/Forum/AddForum';
+import SingleForumPage from './Pages/Forum/SingleForumPage';
 
 function App() {
 
@@ -55,9 +57,18 @@ function App() {
               <Route path="/failure" element={<Failed />} />
               <Route path="/about" element={<About />} />
               <Route path="/forum" element={<Forum />} />
+              <Route path="/forum/:slug" element={<SingleForumPage />} />
 
-              {/* Admin Pages */}
+              {/* Auth Pages */}
 
+              <Route
+                path="/forum/addforum"
+                element={
+                  <ProtectedRoute>
+                    <AddForum />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/profile"
                 element={
@@ -133,7 +144,7 @@ function App() {
                 path="/blogs/:id"
                 element={
                   // <ProtectedAdminRoute>
-                    <SingleBlogPage />
+                  <SingleBlogPage />
                   // </ProtectedAdminRoute>
                 }
               />
@@ -151,7 +162,7 @@ function App() {
                 path="/dashboard/sessions/addsession"
                 element={
                   <ProtectedAdminRoute>
-                    <AddSessionModal/>
+                    <AddSessionModal />
                   </ProtectedAdminRoute>
                 }
               />
@@ -159,7 +170,7 @@ function App() {
                 path="/dashboard/sessions/editsession/:id"
                 element={
                   <ProtectedAdminRoute>
-                    <EditSessionModal/>
+                    <EditSessionModal />
                   </ProtectedAdminRoute>
                 }
               />
