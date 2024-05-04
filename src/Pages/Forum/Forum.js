@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from '../../axios'
 import toast from 'react-hot-toast'
 import dayjs from 'dayjs'
+import { AuthContext } from '../../context/authContext';
 
 function Forum() {
+
+    const { isAuthenticated } = useContext(AuthContext)
 
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 
@@ -49,9 +52,12 @@ function Forum() {
 
             <p className='my-10 text-center text-xl opacity-75 leading-8'>AJH Sports has been in business for 40+ years managed by level 3 Tennis Professional Andrew Hill. Andrew has provided guidance, equiptment and facilities Australia wide for tennis, table tennis and modified sports.</p>
 
-            <div className='w-full flex justify-end'>
-                <Link to={"/forum/addforum"} className='p-3  bg-blue-600 rounded-md font-semibold px-5 text-white'>Add a Post</Link>
-            </div>
+            {
+                isAuthenticated &&
+                <div className='w-full flex justify-end'>
+                    <Link to={"/forum/addforum"} className='p-3  bg-blue-600 rounded-md font-semibold px-5 text-white'>Add a Post</Link>
+                </div>
+            }
 
             {/* <div className='my-4 mb-10 grid gap-2'>
                 <label className='font-semibold'>Search</label>
