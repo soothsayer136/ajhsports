@@ -52,7 +52,6 @@ function SingleForumPage() {
 
             if (result.data.success) {
                 setCommentData(result?.data?.data)
-                console.log('commentData', result?.data?.data)
             } else toast.error('Failed')
         } catch (ERR) {
             console.log(ERR)

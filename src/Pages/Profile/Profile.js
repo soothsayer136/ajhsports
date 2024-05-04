@@ -38,7 +38,6 @@ function Profile() {
         try {
             let result = await axios.get('/booking/my-booking/')
             if (result.data.success) {
-                console.log(result.data.data.data)
                 setBookingData(result.data.data.data)
 
             }

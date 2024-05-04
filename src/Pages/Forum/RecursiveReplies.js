@@ -16,7 +16,6 @@ function RecursiveReplies({ reply, setSelectedComment, showAddReply, setShowAddR
             })
 
             if (result.data.success) {
-                console.log(result.data.data.comments)
                 setReplyList(result.data.data.comments)
             } else toast.error('Failed')
         } catch (ERR) {

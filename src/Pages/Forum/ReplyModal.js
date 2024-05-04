@@ -7,8 +7,6 @@ function ReplyModal({ modalIsOpen, closeModal, data, forumId, getRoute }) {
     const [reply, setReply] = useState()
 
 
-    console.log('data', data)
-
     const postReply = async (parentComment) => {
         try {
             let result = await axios.post('/online-forum/add-comment/' + forumId, {

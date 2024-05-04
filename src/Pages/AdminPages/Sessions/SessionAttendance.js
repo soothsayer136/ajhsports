@@ -12,8 +12,6 @@ import { BiCheck } from 'react-icons/bi'
 
 function SessionAttendance({ modalIsOpen, closeModal, getRoute, data }) {
 
-    console.log('first', data)
-
     const [userData, setUserData] = useState()
     const [currentUserPage, setCurrentUserPage] = useState(1)
     const [userPageSize, setUserPageSize] = useState(1)
@@ -46,7 +44,6 @@ function SessionAttendance({ modalIsOpen, closeModal, getRoute, data }) {
             })
 
             if (result.data.success) {
-                console.log('result.data.data', result.data.data)
                 setUserData(result.data.data.data)
                 setTotalUserCount(result.data.data.count)
                 setTotalUserPage(result.data.data.totalPage)

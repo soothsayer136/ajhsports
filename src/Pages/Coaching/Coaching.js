@@ -60,7 +60,6 @@ function Coaching() {
             }
 
             const response = await axios.post(`${process.env.REACT_APP_BASE_URI}booking/create-intent`, body)
-            console.log("response", response)
             const result = stripe.redirectToCheckout({
                 sessionId: response.data.id
             })

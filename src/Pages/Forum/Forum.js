@@ -31,7 +31,6 @@ function Forum() {
             )
             if (result.data.success) {
                 setForumData(result?.data?.data?.onlineForums?.data)
-                console.log(result.data.data?.onlineForums.data)
             }
 
         } catch (ERR) {
@@ -68,7 +67,6 @@ function Forum() {
                 {
                     forumData?.map((value, index) => (
                         <Link to={"/forum/" + value?.slug} key={index} className='p-2 border shadow rounded-md mb-5'>
-                            {console.log(value)}
                             <p>{value?.title}</p>
                             <p>Posted By {value?.postedBy?.firstname} {value?.postedBy?.lastname}</p>
                             <p>Posted On: {dayjs(value?.updatedAt).format("MMM D YYYY")}</p>
