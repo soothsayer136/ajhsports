@@ -25,11 +25,9 @@ function RecursiveReplies({ reply, setSelectedComment, showAddReply, setShowAddR
         }
     }
 
-
-
     return (
         <>
-            <div className="mt-6  justify-start items-center flex-row space-x-2.5">
+            <div className="pt-6  justify-start items-center flex-row space-x-2.5">
                 <div className='flex gap-3'>
                     <img src={`${process.env.REACT_APP_IMG_URI}${reply?.postedBy[0]?.image}`} alt="girl-avatar" className='h-10 rounded-full' />
                     <div className="flex flex-col justify-start items-start space-y-2">

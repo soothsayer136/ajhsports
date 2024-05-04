@@ -130,7 +130,7 @@ function SingleForumPage() {
                             {
                                 commentData?.comments.map((value, index) => (
 
-                                    <div key={index} className="w-full flex justify-start items-start flex-col bg-gray-50 p-8">
+                                    <div key={index} className="w-full flex justify-start items-start flex-col bg-gray-50 p-8 relative">
 
                                         <div className={"md:block "}>
 
@@ -144,19 +144,21 @@ function SingleForumPage() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="w-full flex justify-start items-start flex-col bg-gray-50 md:px-8 py-8">
-                                            <p className="text-base leading-normal text-gray-600 w-full md:w-9/12 xl:w-5/6">{value?.comment}</p>
+                                        <div className="w-full flex justify-start items-start flex-col bg-gray-50 md:px-8 py-8 !pt-4 relative">
+                                            <p className="text-base leading-normal text-gray-600 w-full md:w-9/12 xl:w-5/6 pl-3">{value?.comment}</p>
+                                            <div className='h-full rounded-bl-2xl border-b border-l absolute w-full top-0 left-5 z-0' />
 
                                             {
                                                 isAuthenticated &&
 
-                                                <button className='btn-primary !p-2 !px-4' onClick={() => {
+                                                <button className='btn-primary z-10 !p-2 !px-4 !ml-3' onClick={() => {
                                                     setSelectedComment(value)
                                                     setShowAddReply(true)
                                                 }}>Reply</button>
                                             }
 
-                                            <div className={""}>
+                                            <div className={"z-10 mt-3"}>
+
                                                 {
                                                     value?.replies?.map((reply, index) => (
 
