@@ -43,6 +43,7 @@ function SessionAttendance({ modalIsOpen, closeModal, getRoute, data }) {
                 }
             })
 
+            
             if (result.data.success) {
                 setUserData(result.data.data.data)
                 setTotalUserCount(result.data.data.count)
