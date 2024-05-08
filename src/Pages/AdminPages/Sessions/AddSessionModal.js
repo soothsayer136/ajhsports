@@ -41,14 +41,14 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
 
             if (image) {
                 formData.append('image', image)
-            }
 
-            let result = await axios.post('/coaching', formData)
+                let result = await axios.post('/coaching', formData)
 
-            if (result.data.success) {
-                toast.success('Session Added Successfully')
-                navigate('/dashboard/sessions')
-            } else toast.error('Failed')
+                if (result.data.success) {
+                    toast.success('Session Added Successfully')
+                    navigate('/dashboard/sessions')
+                }
+            } else toast.error('Please Select an Image')
         } catch (ERR) {
             console.log(ERR)
             toast.error(ERR?.response?.data?.message)
@@ -238,7 +238,7 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
                                                                         Private Session Price
                                                                     </label>
                                                                     <div className="mt-2">
-                                                                        <Field className="inputfield" name={`price.${index}.private`} />
+                                                                        <Field className="inputfield" type="number" name={`price.${index}.private`} />
                                                                     </div>
                                                                 </div>
                                                                 <div className='w-full'>
@@ -246,7 +246,7 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
                                                                         Group Session Price
                                                                     </label>
                                                                     <div className="mt-2">
-                                                                        <Field className="inputfield" name={`price.${index}.group`} />
+                                                                        <Field className="inputfield" type="number" name={`price.${index}.group`} />
                                                                     </div>
                                                                 </div>
                                                             </div>
