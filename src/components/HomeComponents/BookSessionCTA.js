@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaArrowRight } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 function BookSessionCTA() {
     return (
@@ -8,7 +9,7 @@ function BookSessionCTA() {
                 <h1 className='font-semibold text-4xl'>Book Your Session Now</h1>
                 <p className='lg:w-2/3'>Lorem ipsum dolor sit amet consectetur. Arcu eu volutpat arcu faucibus metus egestas velit nisl sagittis.</p>
             </div>
-            <button className='btn-primary bg-opacity-20 !text-current font-semibold min-w-max hover:!text-white'>Learn more <FaArrowRight /></button>
+            <Link to={'/coaching'} className='btn-primary bg-opacity-20 !text-current font-semibold min-w-max hover:!text-white'>Learn more <FaArrowRight /></Link>
         </div>
     )
 }

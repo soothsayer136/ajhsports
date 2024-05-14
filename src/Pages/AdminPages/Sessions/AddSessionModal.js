@@ -1,12 +1,9 @@
 import axios from '../../../axios'
 import { Field, FieldArray, Form, Formik } from 'formik'
-import React, { useMemo, useState, useEffect, useRef } from 'react'
-
+import React, { useState, useRef } from 'react'
 import toast from 'react-hot-toast'
-import Modal from 'react-modal'
 import * as yup from 'yup';
 import FieldError from '../../../components/FieldError'
-import Select from 'react-select'
 import { useNavigate } from 'react-router-dom'
 
 function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
@@ -19,6 +16,13 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
         }
     }
 
+    const expertiseLevelList = [
+        "new",
+        "beginner",
+        "intermediate",
+        "advanced"
+    ]
+
     const [image, setImage] = useState()
 
     const handleButtonClick = () => {
@@ -30,7 +34,6 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
 
     const handleFormSubmit = async (values, actions) => {
         try {
-
             const formData = new FormData()
 
             for (let value in values) {
@@ -59,6 +62,12 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
         title: yup.string()
             .required('This Field is required'),
         description: yup.string()
+            .required('This Field is required'),
+        time: yup.string()
+            .required('This Field is required'),
+        location: yup.string()
+            .required('This Field is required'),
+        expertiseLevel: yup.string()
             .required('This Field is required'),
     });
 
@@ -125,6 +134,9 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
                         enableReinitialize
                         initialValues={{
                             title: '',
+                            time: '',
+                            location: '',
+                            expertiseLevel: '',
                             description: '',
                             price: [{
                                 name: "",
@@ -155,6 +167,66 @@ function AddSessionModal({ modalIsOpen, closeModal, getRoute }) {
                                     <FieldError message={props.touched.title && props.errors.title} />
 
                                 </div>
+
+                                <div className=''>
+                                    <label htmlFor="time" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Session Time
+                                    </label>
+                                    <div className="mt-2">
+                                        <Field
+                                            type="time"
+                                            id="time"
+                                            name="time"
+                                            autoComplete="time"
+                                            required
+                                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                    </div>
+                                    <FieldError message={props.touched.time && props.errors.time} />
+
+                                </div>
+                                <div className=''>
+                                    <label htmlFor="expertiseLevel" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Level of Expertise
+                                    </label>
+                                    <div className="mt-2">
+                                        <Field
+                                            as="select"
+                                            id="expertiseLevel"
+                                            name="expertiseLevel"
+                                            autoComplete="expertiseLevel"
+                                            required
+                                            className="block capitalize w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        >
+                                            <option>Select level of Expertise</option>
+
+                                            {
+                                                expertiseLevelList?.map((value, index) => (
+                                                    <option key={index} className='capitalize'>{value}</option>
+                                                ))
+                                            }
+
+                                        </Field>
+                                    </div>
+                                    <FieldError message={props.touched.expertiseLevel && props.errors.expertiseLevel} />
+                                </div>
+
+                                <div className=''>
+                                    <label htmlFor="location" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Session Location
+                                    </label>
+                                    <div className="mt-2">
+                                        <Field
+                                            id="location"
+                                            name="location"
+                                            autoComplete="location"
+                                            required
+                                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                    </div>
+                                    <FieldError message={props.touched.location && props.errors.location} />
+                                </div>
+
                                 <div>
                                     <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
                                         Session Description

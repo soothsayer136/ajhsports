@@ -9,6 +9,13 @@ import toast from 'react-hot-toast';
 
 function Signup() {
 
+    const expertiseLevelList = [
+        "new",
+        "beginner",
+        "intermediate",
+        "advanced"
+    ]
+    
     const navigate = useNavigate()
     const validationSchema = yup.object({
         firstname: yup.string()
@@ -21,6 +28,8 @@ function Signup() {
             .required("Phone number is required")
             .matches(/^[9]\d{9}$/, "Invalid phone number"),
         address: yup.string()
+            .required('This Field is required'),
+        expertiseLevel: yup.string()
             .required('This Field is required'),
         password: yup
             .string()
@@ -89,6 +98,7 @@ function Signup() {
                             email: "",
                             contact: "",
                             address: "",
+                            expertiseLevel: "",
                             password: "",
                             confirmpassword: "",
                             // role:'superadmin',
@@ -148,6 +158,31 @@ function Signup() {
                                     </div>
                                     <FieldError message={props.touched.address && props.errors.address} />
 
+                                </div>
+                                <div className=''>
+                                    <label htmlFor="expertiseLevel" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Level of Expertise
+                                    </label>
+                                    <div className="mt-2">
+                                        <Field
+                                            as="select"
+                                            id="expertiseLevel"
+                                            name="expertiseLevel"
+                                            autoComplete="expertiseLevel"
+                                            required
+                                            className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        >
+                                            <option>Select level of Expertise</option>
+
+                                            {
+                                                expertiseLevelList?.map((value, index) => (
+                                                    <option key={index} className='capitalize'>{value}</option>
+                                                ))
+                                            }
+
+                                        </Field>
+                                    </div>
+                                    <FieldError message={props.touched.expertiseLevel && props.errors.expertiseLevel} />
                                 </div>
                                 <div>
                                     <label htmlFor="contact" className="block text-sm font-medium leading-6 text-gray-900">

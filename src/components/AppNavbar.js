@@ -9,6 +9,7 @@ import SideNav from './SideNav';
 import { FaHamburger, FaThumbsUp } from 'react-icons/fa'
 import { MdClose } from 'react-icons/md'
 import toast from 'react-hot-toast';
+import { BsBell } from 'react-icons/bs';
 
 const AppNavbar = () => {
     const authUser = useContext(AuthContext);
@@ -91,7 +92,12 @@ const AppNavbar = () => {
                 <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
                     <div className="flex lg:flex-1">
                         <a href="/" className="-m-1.5 p-1.5">
-                            <span className="font-bold text-xl">AJH Sports</span>
+                            <img
+                                className="h-8 w-12"
+                                src="/app_logo.png"
+                                alt="applog"
+                            />
+                            {/* <span className="font-bold text-xl">AJH Sports</span> */}
                         </a>
                     </div>
                     <div className="flex lg:hidden">
@@ -133,7 +139,15 @@ const AppNavbar = () => {
                         ))}
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-5">
-                        <div className="flex items-center">
+                        <div className="flex items-center gap-3">
+                            {
+                                isAuthenticated &&
+                                <Link to={"/notices"}>
+                                    <button className=" py-2 px-2 text-sm hover:bg-blue-200 duration-150 hover:scale-105 rounded-lg">
+                                        <BsBell size={20} />
+                                    </button>
+                                </Link>
+                            }
                             <div className="  cursor-pointer ">
                                 <Link to={"/contact"}>
                                     <button className="bg-current py-2 text-white px-6 text-sm hover:bg-blue-200 duration-150 hover:scale-105 rounded-lg">
@@ -153,7 +167,7 @@ const AppNavbar = () => {
                                                 data-dropdown-toggle="dropdown"
                                             >
                                                 <div className=" overflow-hidden rounded-full">
-                                                    {authUser.userDetails?.image ? (
+                                                    {authUser?.userDetails?.image ? (
                                                         <img
                                                             className="w-7 rounded-full object-cover object-center sm:w-8 md:w-8 h-7"
                                                             src={`${process.env.REACT_APP_IMG_URI}${authUser.userDetails?.image}`}
@@ -219,7 +233,7 @@ const AppNavbar = () => {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="flex gap-2 mr-4  ">
+                                <div className="flex gap-2 mr-2 ml-5 ">
                                     <div className="cursor-pointer ">
                                         <Link to={"/login"}>
                                             <button className="px-3 py-2 text-sm hover:bg-blue-200 duration-150 hover:scale-105 rounded-full">
@@ -293,8 +307,16 @@ const AppNavbar = () => {
                                             </Link>
                                         </div>
 
+                                        {
+                                            isAuthenticated &&
+                                            <Link to={"/notices"}>
+                                                <button className=" py-2 px-2 text-sm hover:bg-blue-200 duration-150 hover:scale-105 rounded-lg">
+                                                    <BsBell size={20} />
+                                                </button>
+                                            </Link>
+                                        }
                                         {isAuthenticated ? (
-                                            <span className="group relative inline-block">
+                                            <div className="group relative inline-block">
                                                 <button
                                                     type="button"
                                                     className="flex items-center mr-3 text-sm md:mr-0 h-full cursor-pointer"
@@ -305,7 +327,7 @@ const AppNavbar = () => {
                                                         {authUser?.userDetails?.image ? (
                                                             <img
                                                                 className="w-7 rounded-full object-cover object-center sm:w-8 md:w-8 h-7"
-                                                                src={`${process.env.REACT_APP_BASE_URI}${authUser?.userDetails?.image}`}
+                                                                src={`${process.env.REACT_APP_IMG_URI}${authUser.userDetails?.image}`}
                                                                 alt="user photo"
                                                             />
                                                         ) : (
@@ -364,7 +386,7 @@ const AppNavbar = () => {
                                                         <span className="ml-2">Log Out</span>
                                                     </li>
                                                 </ul>
-                                            </span>
+                                            </div>
                                         ) : (
                                             <div className="py-6 w-full">
                                                 <a

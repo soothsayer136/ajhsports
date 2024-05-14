@@ -14,7 +14,7 @@ function SessionAttendance({ modalIsOpen, closeModal, getRoute, data }) {
 
     const [userData, setUserData] = useState()
     const [currentUserPage, setCurrentUserPage] = useState(1)
-    const [userPageSize, setUserPageSize] = useState(1)
+    const [userPageSize, setUserPageSize] = useState(10)
     const [totalUserPage, setTotalUserPage] = useState(1)
     const [totalUserCount, setTotalUserCount] = useState(1)
 
@@ -58,7 +58,7 @@ function SessionAttendance({ modalIsOpen, closeModal, getRoute, data }) {
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [userPageSize, currentUserPage])
 
 
     return (

@@ -53,7 +53,7 @@ export default function AdminNavbar() {
                   <a href='/'>
 
                     <img
-                      className="h-8 w-8"
+                      className="h-8 w-12"
                       src="/app_logo.png"
                       alt="applog"
                     />

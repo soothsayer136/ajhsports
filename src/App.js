@@ -33,6 +33,7 @@ import About from './Pages/About/About';
 import Forum from './Pages/Forum/Forum';
 import AddForum from './Pages/Forum/AddForum';
 import SingleForumPage from './Pages/Forum/SingleForumPage';
+import Notices from './Pages/Notices/Notices';
 
 function App() {
 
@@ -66,6 +67,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <AddForum />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/notices"
+                element={
+                  <ProtectedRoute>
+                    <Notices />
                   </ProtectedRoute>
                 }
               />

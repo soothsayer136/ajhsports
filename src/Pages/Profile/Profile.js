@@ -30,7 +30,6 @@ function Profile() {
             let result = await axios.get('/user/get-profile/')
             if (result.data.success) {
                 setProfileDetails(result.data.data)
-
             }
         } catch (ERR) {
             console.log(ERR)
