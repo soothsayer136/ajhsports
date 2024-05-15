@@ -1,17 +1,22 @@
 import axios from '../../axios'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { FaBoxes, FaShoppingBag, FaShoppingCart, FaUser } from 'react-icons/fa'
+import { BiTennisBall, BiUser } from 'react-icons/bi'
+import { FaBoxes, FaShoppingBag, FaShoppingCart, FaBlog } from 'react-icons/fa'
+import { MdEventSeat } from 'react-icons/md'
 
 function Dashboard() {
-  const [totalOrderCount, setTotalOrderCount] = useState(0)
-  const [totalUserCount, setTotalUserCount] = useState(0)
-  const [totalCategoryCount, setTotalCategoryCount] = useState(0)
-  const [totalProductCount, setTotalProductCount] = useState(0)
+  const [totalEventCount, setTotalEventCount] = useState(0)
+  const [totalBlogCount, setTotalBlogCount] = useState(0)
+  const [totalContactCount, setTotalContactCount] = useState(0)
+  const [totalSessionsCount, setTotalSessionsCount] = useState(0)
 
-  const getAllProduct = async () => {
+
+  console.log('totalBlogCount', totalBlogCount)
+
+  const getAllSessions = async () => {
     try {
-      let result = await axios.get('/product', {
+      let result = await axios.get('/coaching', {
         params: {
           search: "",
           page: 1,
@@ -20,7 +25,7 @@ function Dashboard() {
       })
 
       if (result.data.success) {
-        setTotalProductCount(result.data.totalCount)
+        setTotalSessionsCount(result.data.data.count)
       } else toast.error('Failed')
     } catch (ERR) {
       console.log(ERR)
@@ -28,9 +33,9 @@ function Dashboard() {
     }
   }
 
-  const getAllCategory = async (values, actions) => {
+  const getAllContact = async (values, actions) => {
     try {
-      let result = await axios.get('/category', {
+      let result = await axios.get('/contact', {
         params: {
           search: "",
           page: 1,
@@ -39,7 +44,7 @@ function Dashboard() {
       })
 
       if (result.data.success) {
-        setTotalCategoryCount(result?.data?.totalCount)
+        setTotalContactCount(result?.data?.data.count)
       } else toast.error('Failed')
 
     } catch (ERR) {
@@ -48,9 +53,9 @@ function Dashboard() {
     }
   }
 
-  const getAllUser = async () => {
+  const getAllBlog = async () => {
     try {
-      let result = await axios.get('/user/all', {
+      let result = await axios.get('/blog', {
         params: {
           search: "",
           page: 1,
@@ -59,7 +64,8 @@ function Dashboard() {
       })
 
       if (result.data.success) {
-        setTotalUserCount(result.data.totalCount)
+        setTotalBlogCount(result.data.data.blogs.count)
+        console.log('result.data.blogs', result.data.data.blogs.count)
       } else toast.error('Failed')
     } catch (ERR) {
       console.log(ERR)
@@ -67,9 +73,9 @@ function Dashboard() {
     }
   }
 
-  const getAllOrders = async () => {
+  const getAllEvents = async () => {
     try {
-      let result = await axios.get('cart/admin/order', {
+      let result = await axios.get('/event', {
         params: {
           search: "",
           page: 1,
@@ -78,7 +84,7 @@ function Dashboard() {
       })
 
       if (result.data.success) {
-        setTotalOrderCount(result.data.totalCount)
+        setTotalEventCount(result.data.data.count)
       } else toast.error('Failed')
     } catch (ERR) {
       console.log(ERR)
@@ -87,17 +93,36 @@ function Dashboard() {
   }
 
   useEffect(() => {
-    getAllCategory()
-    getAllOrders()
-    getAllProduct()
-    getAllUser()
+    getAllContact()
+    getAllEvents()
+    getAllSessions()
+    getAllBlog()
   }, [])
 
   return (
     <div className='mx-auto max-w-7xl px-4'>
 
       <h1 className='text-4xl font-semibold'>Admin Dashboard</h1>
-     
+
+      <div className='grid md:grid-cols-2 gap-4 mt-10'>
+
+        <div className='shadow p-3 py-10 bg-blue-100 flex flex-col items-center'>
+          <label className='font-semibold text-xl flex items-center gap-3'><FaBlog /> Total Blogs</label>
+          <label className='text-4xl mt-3 text-gray-500'>{totalBlogCount}</label>
+        </div>
+        <div className='shadow p-3 py-10 flex bg-yellow-200 flex-col items-center'>
+          <label className='font-semibold text-xl flex items-center gap-3'><BiTennisBall /> Total Sessions</label>
+          <label className='text-4xl mt-3 text-gray-500'>{totalSessionsCount}</label>
+        </div>
+        <div className='shadow p-3 py-10 flex bg-green-200 flex-col items-center'>
+          <label className='font-semibold text-xl flex items-center gap-3'><BiUser /> Total Contact</label>
+          <label className='text-4xl mt-3 text-gray-500'>{totalContactCount}</label>
+        </div>
+        <div className='shadow p-3 py-10 bg-orange-200 flex flex-col items-center'>
+          <label className='font-semibold text-xl flex items-center gap-3'><MdEventSeat /> Total Events</label>
+          <label className='text-4xl mt-3 text-gray-500'>{totalEventCount}</label>
+        </div>
+      </div>
     </div>
   )
 }
