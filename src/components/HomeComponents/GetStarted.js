@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaArrowRight } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 function GetStarted() {
     return (
@@ -8,7 +9,7 @@ function GetStarted() {
                 <div className='flex flex-col gap-4 lg:px-20 px-5'>
                     <h3 className='text-4xl font-semibold'>Social Tennis and Table Tennis</h3>
                     <h3 className=''>AJH Sports provides social and competitive tennis sessions for players of all skill levels. We charge a $5 entry for two hours of hitting, great for fiend groups who need a couple of extra players to form a round robin.</h3>
-                    <button className='btn-primary max-w-fit'>Get started for free <FaArrowRight /></button>
+                    <Link to={'/coaching'} className='btn-primary max-w-fit'>Get started for free <FaArrowRight /></Link>
                 </div>
                 <div className='p-5'>
                     <img src='/getstarted1.png' className='mx-auto' />

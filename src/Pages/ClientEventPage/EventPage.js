@@ -6,6 +6,7 @@ import axios from '../../axios'
 import toast from 'react-hot-toast'
 import EventDescModal from '../../components/EventDescModal'
 import EventRegister from './EventRegister'
+import dayjs from 'dayjs'
 
 function EventPage() {
 
@@ -50,7 +51,7 @@ function EventPage() {
                 params: {
                     search: "",
                     page: 1,
-                    limit: 4
+                    limit: 20
                 }
             })
 
@@ -103,6 +104,8 @@ function EventPage() {
                                             ))
                                         }
                                     </div>
+                                    {/* <label className='font-semibold text-sm capitalize'>{dayjs(value?.startDate).format('MMM DD YYYY')} - {dayjs(value?.endDate).format('MMM DD YYYY')}</label> */}
+                                    <label className='font-semibold text-sm capitalize'>{dayjs(`1/1/1 ${value?.startTime}`).format('h:mm A')} - {dayjs(`1/1/1 ${value?.endTime}`).format('h:mm A')}</label>
                                     <label className='font-semibold text-xl capitalize'>{value?.eventName}</label>
                                     <label className='text-gray-400'>{value?.location}</label>
                                 </div>

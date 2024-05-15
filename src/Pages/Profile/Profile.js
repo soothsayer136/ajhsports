@@ -163,6 +163,10 @@ function Profile() {
                             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{profileDetails?.firstname} {profileDetails?.lastname}</dd>
                         </div>
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <dt className="text-sm font-medium leading-6 text-gray-900">Expertise Level</dt>
+                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 capitalize">{profileDetails?.expertiseLevel}</dd>
+                        </div>
+                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                             <dt className="text-sm font-medium leading-6 text-gray-900">Contact</dt>
                             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{profileDetails?.contact}</dd>
                         </div>
@@ -185,21 +189,44 @@ function Profile() {
                     <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Coaching Bookings Details</p>
                 </div>
                 <div className="mt-6 border-t border-gray-100">
-                    <dl className="divide-y divide-gray-100">
+                    <div className="divide-y divide-gray-100 grid grid-cols-4">
                         {
                             bookingData?.map((value, index) => (
-                                <div key={index} className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 grid"><label className='semibold'>{value?.lesson?.title}</label> <label>Payment: {value?.is_payed === true ? "Successfull" : "Failed"}</label> </dt>
-                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 grid"> <label className='semibold'>{value?.lesson_name} - {value?.lesson_type}</label> <label> AUD {value?.price}</label> </dd>
+                                // <div key={index} className="p-4 mt-4 rounded bg-blue-50 shadow w-fit">
+                                //     <div className="text-sm font-medium leading-6 text-gray-900 grid">
+                                //         <label className='semibold'>
+                                //             {value?.lesson?.title}
+                                //         </label>
+                                //         <label className='semibold'>
+                                //             {value?.lesson_name} - {value?.lesson_type}
+                                //         </label>
+                                //         <label>
+                                //             Payment:
+                                //             {value?.is_payed === true ? "Successfull" : "Failed"}
+                                //         </label>
+                                //         <label>
+                                //             AUD {value?.price}
+                                //         </label>
+                                //     </div>
+                                // </div>
+                                <div class="block max-w-sm p-6 mt-4 bg-blue-50 bg-opacity-30 border  rounded-lg  hover:bg-gray-100 ">
+                                    <div className='flex justify-between gap-3'>
+                                        {/* <h5 class="mb-2 font-bold tracking-tight -ml-1 -mt-2 bg-blue-600 text-white w-fit p-4 py-1.5 rounded-full"> {index + 1} </h5> */}
+                                        <h5 class="mb-2 font-bold tracking-tight -ml-1 -mt-2 bg-green-600 text-white w-fit p-4 py-1.5 rounded-full capitalize">{value?.lesson_type} </h5>
+                                    </div>
+                                    <h5 class="mb-2 text-xl mt-3 font-bold tracking-tight text-gray-900 "> {value?.lesson?.title}</h5>
+                                    <p class="font-semibold text-gray-700 capitalize">{value?.lesson_name} </p>
+                                    <p class="font-normal text-gray-700 "> Payment: {value?.is_payed === true ? "Successfull" : "Failed"}</p>
+                                    <p class="font-normal text-gray-700 "> AUD {value?.price}</p>
                                 </div>
                             ))
                         }
 
-                    </dl>
+                    </div>
                 </div>
             </div>
 
-            <Notices/>
+            <Notices />
             {/* <div className='bg-white p-5 my-5 rounded-lg shadow-xl'>
                 <div className="px-4 sm:px-0">
                     <h3 className="text-base font-semibold leading-7 text-gray-900">My Notices</h3>
