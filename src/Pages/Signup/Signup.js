@@ -65,7 +65,7 @@ function Signup() {
         } catch (error) {
             // Handle errors (e.g., show an error message)
             console.error('Error submitting form:', error);
-            toast.error(error.response.data.msg)
+            toast.error(error.response.data.message)
         }
     };
 

@@ -6,6 +6,7 @@ import { AuthContext } from '../../context/authContext'
 import { Link } from 'react-router-dom'
 import { CgAlarm } from 'react-icons/cg'
 import dayjs from 'dayjs'
+import Notices from '../Notices/Notices'
 
 function Profile() {
     const { userDetails, setUserDetails } = useContext(AuthContext)
@@ -197,7 +198,9 @@ function Profile() {
                     </dl>
                 </div>
             </div>
-            <div className='bg-white p-5 my-5 rounded-lg shadow-xl'>
+
+            <Notices/>
+            {/* <div className='bg-white p-5 my-5 rounded-lg shadow-xl'>
                 <div className="px-4 sm:px-0">
                     <h3 className="text-base font-semibold leading-7 text-gray-900">My Notices</h3>
                     <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500"></p>
@@ -209,7 +212,6 @@ function Profile() {
                                 <div key={index} className="px-4 py-6 grid sm:px-0">
                                     <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex items-center gap-3"><CgAlarm /> <span className='semibold'>{dayjs(value?.updatedAt).format('D MMM YYYY')}</span> </div>
                                     <span className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex items-center gap-3">Event Recommendation</span>
-                                    {/* <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 grid"> <label className='semibold'>{value?.lesson_name} - {value?.lesson_type}</label> <label> AUD {value?.price}</label> </dd> */}
                                     <Link to={'/events'} className=' capitalize font-medium leading-6 text-gray-900 '>{value?.message}</Link>
                                 </div>
                             ))
@@ -217,7 +219,7 @@ function Profile() {
 
                     </dl>
                 </div>
-            </div>
+            </div> */}
 
 
         </div >

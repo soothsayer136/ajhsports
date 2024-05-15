@@ -117,7 +117,7 @@ function EditSessionModal() {
                             price: sessionData?.price,
                             time: sessionData?.time,
                             location: sessionData?.location,
-                            expertiseLevel: sessionData?.expertiseLevel,
+                            interval: sessionData?.interval,
                         }}
                         validationSchema={validationSchema}
                         onSubmit={(values, actions) => {
@@ -161,6 +161,21 @@ function EditSessionModal() {
 
                                 </div>
                                 <div className=''>
+                                    <label htmlFor="interval" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Session Duration in Hours
+                                    </label>
+                                    <div className="mt-2">
+                                        <Field
+                                            id="interval"
+                                            name="interval"
+                                            autoComplete="interval"
+                                            required
+                                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                    </div>
+                                    <FieldError message={props.touched.interval && props.errors.interval} />
+                                </div>
+                                {/* <div className=''>
                                     <label htmlFor="expertiseLevel" className="block text-sm font-medium leading-6 text-gray-900">
                                         Level of Expertise
                                     </label>
@@ -184,7 +199,7 @@ function EditSessionModal() {
                                         </Field>
                                     </div>
                                     <FieldError message={props.touched.expertiseLevel && props.errors.expertiseLevel} />
-                                </div>
+                                </div> */}
 
                                 <div className=''>
                                     <label htmlFor="location" className="block text-sm font-medium leading-6 text-gray-900">
